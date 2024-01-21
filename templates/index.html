@@ -6,12 +6,15 @@
     body {
         margin: 0;
         padding: 0;
+    }
+
+    .container {
         display: flex;
     }
 
     .box {
-        height: 100vh; /* Set height to full viewport height */
         flex-grow: 1; /* Each box takes equal width */
+        height: 200px; /* Set height as needed */
     }
 
     .blue {
@@ -28,6 +31,8 @@
 </style>
 {% endblock %}
 {% block content %}
+<!DOCTYPE html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -35,9 +40,12 @@
     <title>Your Website</title>
 </head>
 <body>
-    <div class="box blue"></div>
-    <div class="box purple"></div>
-    <div class="box red"></div>
+    <div class="container">
+        <div class="box blue"></div>
+        <div class="box purple"></div>
+        <div class="box red"></div>
+    </div>
 </body>
+</html>
 
 {% endblock %}
