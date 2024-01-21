@@ -3,29 +3,31 @@
 {% block head %}
 {{ super() }}
 <style>
-    body {
+    body, html {
         margin: 0;
         padding: 0;
+        height: 100%;
     }
 
     .container {
         display: flex;
+        height: 100vh; /* Set height to full viewport height */
     }
 
     .box {
         flex-grow: 1; /* Each box takes equal width */
-        height: 200px; /* Set height as needed */
+        height: 100%; /* Set height to full container height */
     }
 
-    .blue {
+    #box1 {
         background-color: blue;
     }
 
-    .purple {
+    #box2 {
         background-color: purple;
     }
 
-    .red {
+    #box3 {
         background-color: red;
     }
 </style>
@@ -41,9 +43,9 @@
 </head>
 <body>
     <div class="container">
-        <div class="box blue"></div>
-        <div class="box purple"></div>
-        <div class="box red"></div>
+        <div class="box" id="box1"></div>
+        <div class="box" id="box2"></div>
+        <div class="box" id="box3"></div>
     </div>
 </body>
 </html>
