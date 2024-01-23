@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block title %}Restaurant List{% endblock %}
+{% block head %}
+{{ super() }}
+<style>
+    body, html {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+    }
+
+    .container {
+        display: flex;
+        height: 100vh; /* Set height to full viewport height */
+    }
+
+    .box {
+        flex-grow: 1; /* Each box takes equal width */
+        height: 100%; /* Set height to full container height */
+    }
+
+    #box1 {
+        background-color: blue;
+    }
+
+    #box2 {
+        background-color: purple;
+    }
+
+    #box3 {
+        background-color: red;
+    }
+</style>
+{% endblock %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>Your Website</title>
+</head>
+<body>
+    <div class="container">
+        <div class="box" id="box1"></div>
+        <div class="box" id="box2"></div>
+        <div class="box" id="box3"></div>
+    </div>
+</body>
+</html>
+
+{% endblock %}
