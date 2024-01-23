@@ -6,6 +6,21 @@ from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
 from flask_wtf.csrf import CSRFProtect
 
+from azure.identity import DefaultAzureCredential
+from azure.storage.blob import BlobServiceClient, BlobClient, ContainerClient
+
+credential = DefaultAzureCredential()
+account_url = "https://cofcstorage.blob.core.windows.net"
+blob_service_client = BlobServiceClient(account_url, credential = credential)
+
+container_name = "test"
+
+try:
+    container_client = blob_service_client.get_container_client(container = container_name)
+    container_client.get_container_properties()
+except Exception as e:
+    container_client = blob_service_client.create_container(container_client)
+
 
 app = Flask(__name__, static_folder='static')
 csrf = CSRFProtect(app)
