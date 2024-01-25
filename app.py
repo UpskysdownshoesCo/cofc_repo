@@ -13,7 +13,7 @@ credential = DefaultAzureCredential()
 account_url = "https://cofcstorage.blob.core.windows.net"
 blob_service_client = BlobServiceClient(account_url, credential = credential)
 
-container_name = "test"
+container_name = "test2"
 
 try:
     container_client = blob_service_client.get_container_client(container = container_name)
