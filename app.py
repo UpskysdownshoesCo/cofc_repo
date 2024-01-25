@@ -129,6 +129,20 @@ def utility_processor():
 
     return dict(star_rating=star_rating)
 
+@app.route('/upload-blob', methods=['POST'])
+def upload_blob():
+  file = request.files['file']
+  container_name = "test2"
+  try:
+        container_client = blob_service_client.get_container_client(container = container_name)
+        container_client.get_container_properties()
+  except Exception as e:
+        container_client = blob_service_client.create_container(container_name)
+    
+  blob_client = container_client.get_blob_client(file.filename)
+  blob_client.upload_blob(file)
+  return 'File uploaded successfully'
+
 @app.route('/favicon.ico')
 def favicon():
     return send_from_directory(os.path.join(app.root_path, 'static'),
