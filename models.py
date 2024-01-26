@@ -1,7 +1,7 @@
 from sqlalchemy import Column, DateTime, ForeignKey, Integer, String
 from sqlalchemy.orm import validates
 
-
+from app import db
 class user(db.Model):
     id = Column(Integer, primary_key=True)
     email = Column(String(200), unique=True, nullable=False)
