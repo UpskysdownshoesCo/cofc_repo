@@ -9,6 +9,11 @@ from flask_wtf.csrf import CSRFProtect
 from azure.identity import DefaultAzureCredential
 from azure.storage.blob import BlobServiceClient, BlobClient, ContainerClient
 
+
+
+app = Flask(__name__, static_folder='static')
+csrf = CSRFProtect(app)
+
 credential = DefaultAzureCredential()
 account_url = "https://cofcstorage.blob.core.windows.net"
 blob_service_client = BlobServiceClient(account_url, credential = credential)
@@ -21,9 +26,6 @@ try:
 except Exception as e:
     container_client = blob_service_client.create_container(container_name)
 
-
-app = Flask(__name__, static_folder='static')
-csrf = CSRFProtect(app)
 
 # WEBSITE_HOSTNAME exists only in production environment
 if 'WEBSITE_HOSTNAME' not in os.environ:
@@ -129,19 +131,24 @@ def utility_processor():
 
     return dict(star_rating=star_rating)
 
-@app.route('/upload-blob', methods=['POST'])
+@app.route('/upload_blob', methods=['POST'])
 def upload_blob():
-  file = request.files['file']
-  container_name = "test2"
-  try:
-        container_client = blob_service_client.get_container_client(container = container_name)
-        container_client.get_container_properties()
-  except Exception as e:
-        container_client = blob_service_client.create_container(container_name)
-    
-  blob_client = container_client.get_blob_client(file.filename)
-  blob_client.upload_blob(file)
-  return 'File uploaded successfully'
+    if 'file' not in request.files:
+        return "No file part"
+
+    file = request.files['file']
+
+    if file.filename == '':
+        return "No selected file"
+
+    blob_name = file.filename
+    blob_client = container_client.get_blob_client(blob_name)
+
+    # Upload the file to Azure Blob Storage
+    blob_client.upload_blob(file)
+
+    return "File uploaded successfully"
+
 
 @app.route('/favicon.ico')
 def favicon():
