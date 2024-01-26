@@ -133,22 +133,25 @@ def utility_processor():
 
 @app.route('/upload_blob', methods=['POST'])
 def upload_blob():
-    if 'file' not in request.files:
-        return "No file part"
+    try:
+        if 'file' not in request.files:
+            return "No file part"
 
-    file = request.files['file']
+        file = request.files['file']
 
-    if file.filename == '':
-        return "No selected file"
+        if file.filename == '':
+            return "No selected file"
 
-    blob_name = file.filename
-    blob_client = container_client.get_blob_client(blob_name)
+        blob_name = file.filename
+        blob_client = container_client.get_blob_client(blob_name)
 
-    # Upload the file to Azure Blob Storage
-    blob_client.upload_blob(file)
+        # Upload the file to Azure Blob Storage
+        blob_client.upload_blob(file)
 
-    return "File uploaded successfully"
-
+        return "File uploaded successfully"
+    except Exception as e:
+        print(f"An error occurred: {str(e)}")
+        return "Internal Server Error"
 
 @app.route('/favicon.ico')
 def favicon():
