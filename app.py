@@ -8,7 +8,7 @@ from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
 from flask_wtf.csrf import CSRFProtect
 
-from models import Restaurant, Review, user
+
 from .forms import login, Register
 
 from azure.identity import DefaultAzureCredential
@@ -57,7 +57,7 @@ db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 
 # The import must be done after db initialization due to circular import issue
-
+from models import Restaurant, Review, user
 
 @app.route('/', methods=['GET'])
 def index():
@@ -74,7 +74,6 @@ def details(id):
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     form = login()
-    valid = False
     if form.validate_on_submit():
         #Check email is valid format
         # if not emailCheck(form.email.data):
