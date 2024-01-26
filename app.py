@@ -13,10 +13,10 @@ from azure.storage.blob import BlobServiceClient, BlobClient, ContainerClient
 
 
 app = Flask(__name__, static_folder='static')
-# csrf = CSRFProtect(app)
+csrf = CSRFProtect(app)
 
-# SECRET_KEY = os.urandom(32)
-# app.config['SECRET_KEY'] = SECRET_KEY
+SECRET_KEY = os.urandom(32)
+app.config['SECRET_KEY'] = SECRET_KEY
 
 credential = DefaultAzureCredential()
 account_url = "https://cofcstorage.blob.core.windows.net"
@@ -136,6 +136,7 @@ def utility_processor():
     return dict(star_rating=star_rating)
 
 @app.route('/upload_blob', methods=['POST'])
+@csrf.exempt
 def upload_blob():
     try:
         if 'file' not in request.files:
