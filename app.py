@@ -15,6 +15,9 @@ from azure.storage.blob import BlobServiceClient, BlobClient, ContainerClient
 app = Flask(__name__, static_folder='static')
 csrf = CSRFProtect(app)
 
+SECRET_KEY = os.urandom(32)
+app.config['SECRET_KEY'] = SECRET_KEY
+
 credential = DefaultAzureCredential()
 account_url = "https://cofcstorage.blob.core.windows.net"
 blob_service_client = BlobServiceClient(account_url, credential = credential)
