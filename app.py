@@ -1,11 +1,15 @@
 import os
 import logging
+import hashlib
 from datetime import datetime
 
-from flask import Flask, redirect, render_template, request, send_from_directory, url_for
+from flask import Flask, redirect, render_template, request, send_from_directory, url_for, flash
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
 from flask_wtf.csrf import CSRFProtect
+
+from models import Restaurant, Review, user
+from .forms import login, Register
 
 from azure.identity import DefaultAzureCredential
 from azure.storage.blob import BlobServiceClient, BlobClient, ContainerClient
@@ -53,7 +57,7 @@ db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 
 # The import must be done after db initialization due to circular import issue
-from models import Restaurant, Review
+
 
 @app.route('/', methods=['GET'])
 def index():
@@ -66,6 +70,28 @@ def details(id):
     restaurant = Restaurant.query.where(Restaurant.id == id).first()
     reviews = Review.query.where(Review.restaurant == id)
     return render_template('details.html', restaurant=restaurant, reviews=reviews)
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    form = login()
+    valid = False
+    if form.validate_on_submit():
+        #Check email is valid format
+        # if not emailCheck(form.email.data):
+        #     flash('invlalid email address')
+        # else:
+            users = user.query.all()
+            
+            for u in users:
+                #Hash enetered password using sha-256 and compare to database to find users account.
+                hashed = hashlib.sha256(form.password.data.encode("utf-8")).hexdigest()
+                
+                return redirect('/index')
+            else:
+                flash('Couldnt find an account with those details')
+                print('Couldnt find an account with those details')
+
+    return render_template("login.html", form=form, title="Login")
 
 @app.route('/create', methods=['GET'])
 def create_restaurant():
