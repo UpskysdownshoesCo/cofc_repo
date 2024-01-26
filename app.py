@@ -1,4 +1,5 @@
 import os
+import logging
 from datetime import datetime
 
 from flask import Flask, redirect, render_template, request, send_from_directory, url_for
@@ -150,8 +151,9 @@ def upload_blob():
 
         return "File uploaded successfully"
     except Exception as e:
-        print(f"An error occurred: {str(e)}")
+        logging.exception("An error occurred:")
         return "Internal Server Error"
+        
 
 @app.route('/favicon.ico')
 def favicon():
