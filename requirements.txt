@@ -7,3 +7,4 @@ python-dotenv
 SQLAlchemy
 azure-identity
 azure-storage-blob
+WTForms
