@@ -73,7 +73,7 @@ def details(id):
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    form = login()
+    form = LoginForm()
     if form.validate_on_submit():
         #Check email is valid format
         # if not emailCheck(form.email.data):

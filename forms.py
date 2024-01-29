@@ -5,7 +5,7 @@ from wtforms.fields import DateTimeField, DateField, EmailField
 
 from wtforms.validators import DataRequired, NumberRange, Email, EqualTo, Length
 
-class login(Form):
+class LoginForm(Form):
     email = EmailField('Enter Email', validators=[DataRequired(), Email()])
     password = PasswordField('Enter Password', validators=[DataRequired(), Length(min=4,message='Must be at least 4 characters')])
 
