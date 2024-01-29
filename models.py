@@ -2,7 +2,13 @@ from sqlalchemy import Column, DateTime, ForeignKey, Integer, String
 from sqlalchemy.orm import validates
 
 from app import db
-
+class user(db.Model):
+    id = Column(Integer, primary_key=True)
+    email = Column(String(200), unique=True, nullable=False)
+    password = Column(String(200), nullable=False)
+    name = Column(String(200))
+    company = Column(String(200), unique=True, nullable=False)
+    
 
 class Restaurant(db.Model):
     __tablename__ = 'restaurant'

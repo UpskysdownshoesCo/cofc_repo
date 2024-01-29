@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+  {% block content %}
+      <h2 id="addMarginLeft"> Login or Register</h2>
+      <h3 id = "addMarginLeft"> If you don't have an account you can register here: </h3>
+        <div id = "addMarginLeft">
+            <form action="/register">
+                <input type="submit" value="Register" class="btn btn-outline-info"/>
+            </form>
+
+            <br>
+            <h3>Log in: </h3>
+      <div>
+            <!-- <form action="/register">
+                <input type="submit" value="Register" class="btn btn-outline-info"/>
+            </form> -->
+            
+        <form action="/login" method="post" name="Login">
+            <div class="form-row">
+                {{ form.hidden_tag() }}
+                <div class="form-group col-md-3">
+                    <label for="inputEmail">Email</label>
+                    <div id="inputEmail">
+                        {{ form.email }}
+                    </div>
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="inputPassword">Password</label>
+                    <div id="inputPassword">
+                        {{ form.password }}
+                    </div>
+                </div>
+            </div>
+
+            <p><input type="submit" value="Login" id = "login-button" class="btn btn-outline-info"></p>
+        </div>
+        
+        
+
+        </form>
+    </div>
+{% endblock %}
