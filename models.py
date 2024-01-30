@@ -2,7 +2,8 @@ from sqlalchemy import Column, DateTime, ForeignKey, Integer, String
 from sqlalchemy.orm import validates
 
 from app import db
-class users(db.Model):
+class Users(db.Model):
+    __tablename__ = 'users'
     id = Column(Integer, primary_key=True)
     email = Column(String(200), unique=True, nullable=False)
     password = Column(String(200), nullable=False)
