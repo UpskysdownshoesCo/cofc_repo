@@ -57,7 +57,7 @@ db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 
 # The import must be done after db initialization due to circular import issue
-from models import Restaurant, Review, user
+from models import Restaurant, Review, users
 
 @app.route('/', methods=['GET'])
 def index():
@@ -79,7 +79,7 @@ def login():
         # if not emailCheck(form.email.data):
         #     flash('invlalid email address')
         # else:
-    users = user.query.all()
+    users = users.query.all()
             
     for u in users:
         #Hash enetered password using sha-256 and compare to database to find users account.
