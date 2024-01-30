@@ -79,9 +79,9 @@ def login():
         # if not emailCheck(form.email.data):
         #     flash('invlalid email address')
         # else:
-    users = users.query.all()
+    user = users.query.all()
             
-    for u in users:
+    for u in user:
         #Hash enetered password using sha-256 and compare to database to find users account.
         hashed = hashlib.sha256(form.password.data.encode("utf-8")).hexdigest()
                 
