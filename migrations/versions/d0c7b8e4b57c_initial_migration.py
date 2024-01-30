@@ -35,12 +35,12 @@ def upgrade():
     sa.ForeignKeyConstraint(['restaurant'], ['restaurant.id'], ondelete='CASCADE'),
     sa.PrimaryKeyConstraint('id')
     )
-    op.create_table('users'
+    op.create_table('users',
     sa.Column('id', sa.Integer(), primary_key=True),
-    sa.Column('email', sa.String(200), unique=True, nullable=False )
-    sa.Column('password', sa.String(200), nullable=False)
-    sa.Column('name', sa.String(200))
-    sa.Column('company', sa.String(200), unique=True, nullable=True)
+    sa.Column('email', sa.String(200), unique=True, nullable=False ),
+    sa.Column('password', sa.String(200), nullable=False),
+    sa.Column('name', sa.String(200)),
+    sa.Column('company', sa.String(200), unique=True, nullable=True),
     sa.PrimaryKeyConstraint('id')
     )
     # ### end Alembic commands ###
