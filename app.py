@@ -79,16 +79,21 @@ def login():
         # if not emailCheck(form.email.data):
         #     flash('invlalid email address')
         # else:
-    user = users.query.all()
+    user = Users.query.all()
+    hashed_input_password = hashlib.sha256(form.password.data.encode("utf-8")).hexdigest()
+    for user in users:
+        if user.password == hashed_input_password:
+            return redirect('/index')
+
             
-    for u in user:
+    #for u in user:
         #Hash enetered password using sha-256 and compare to database to find users account.
-        hashed = hashlib.sha256(form.password.data.encode("utf-8")).hexdigest()
+        #hashed = hashlib.sha256(form.password.data.encode("utf-8")).hexdigest()
                 
-        return redirect('/index')
-    else:
-        flash('Couldnt find an account with those details')
-        print('Couldnt find an account with those details')
+        #return redirect('/index')
+    #else:
+    flash('Couldnt find an account with those details')
+    print('Couldnt find an account with those details')
 
     return render_template("login.html", form=form, title="Login")
 
