@@ -81,10 +81,12 @@ def login():
         # else:
     users = Users.query.all()
     input_password = form.password.data
-    hashed_input_password = hashlib.sha256(input_password.encode("utf-8")).hexdigest()
-    for user in users:
-        if user.password == hashed_input_password:
-            return redirect('/index')
+
+    if input_password is not None:
+        hashed_input_password = hashlib.sha256(input_password.encode("utf-8")).hexdigest()
+        for user in users:
+            if user.password == hashed_input_password:
+                return redirect('/index')
 
             
     #for u in user:
