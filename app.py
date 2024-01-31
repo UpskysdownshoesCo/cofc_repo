@@ -79,8 +79,9 @@ def login():
         # if not emailCheck(form.email.data):
         #     flash('invlalid email address')
         # else:
-    user = Users.query.all()
-    hashed_input_password = hashlib.sha256(form.password.data.encode("utf-8")).hexdigest()
+    users = Users.query.all()
+    input_password = form.password.data
+    hashed_input_password = hashlib.sha256(input_password.encode("utf-8")).hexdigest()
     for user in users:
         if user.password == hashed_input_password:
             return redirect('/index')
