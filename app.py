@@ -63,7 +63,7 @@ from models import Restaurant, Review, Users
 def index():
     print('Request for index page received')
     restaurants = Restaurant.query.all()
-    return render_template('index.html', restaurants=restaurants)
+    return render_template('new_base.html', restaurants=restaurants)
 
 @app.route('/<int:id>', methods=['GET'])
 def details(id):
@@ -98,7 +98,7 @@ def login():
     flash('Couldnt find an account with those details')
     print('Couldnt find an account with those details')
 
-    return render_template("login.html", form=form, title="Login")
+    return render_template("new_login.html", form=form, title="Login")
 
 @app.route('/create', methods=['GET'])
 def create_restaurant():

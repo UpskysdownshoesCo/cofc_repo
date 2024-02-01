@@ -1,0 +1,150 @@
+/* Reset some basic elements */
+body, h1, p, ul, li, a, form, label, input, button {
+    margin: 0;
+    padding: 0;
+    text-decoration: none;
+    list-style: none;
+    box-sizing: border-box;
+}
+
+/* Set some basic styling */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f4;
+}
+
+/* Navbar styles */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+    background-color: white;
+}
+
+.logo {
+    background-color: orange;
+    padding: 10px;
+    border-radius: 50%;
+    color: white;
+    text-align: center;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+nav ul li {
+    display: inline;
+    margin-left: 20px;
+}
+
+/* Hero section styles */
+.hero {
+    text-align: center;
+    padding: 50px 20px;
+}
+
+    .hero h1 {
+        margin-bottom: 20px;
+    }
+
+    .hero p {
+        color: #333;
+        margin-bottom: 20px;
+    }
+
+/* Button styles */
+.btn {
+    display: inline-block;
+    padding: 10px 20px;
+    border-radius: 5px;
+    color: white;
+    margin: 5px;
+}
+
+.btn-learn {
+    background-color: red;
+}
+
+.btn-primary {
+    background-color: orange;
+}
+
+/* Login form styles */
+.login-form {
+    max-width: 300px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: white;
+    text-align: center;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+    .login-form h1 {
+        color: #333;
+        margin-bottom: 20px;
+    }
+
+    .login-form form {
+        margin-bottom: 20px;
+    }
+
+label {
+    display: block;
+    margin-top: 10px;
+}
+
+input[type="email"],
+input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+button {
+    width: 100%;
+    padding: 10px;
+    background-color: orange;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+    button:hover {
+        background-color: red;
+    }
+
+p {
+    font-size: 0.9em;
+    color: #666;
+}
+
+    p a {
+        color: orange;
+    }
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .navbar {
+        flex-direction: column;
+        align-items: center;
+    }
+
+        .navbar .logo,
+        .navbar nav ul {
+            margin-bottom: 20px;
+        }
+
+    .hero {
+        padding: 50px 10px;
+    }
+
+    .login-form {
+        padding: 10px;
+    }
+}
