@@ -66,7 +66,7 @@ def index():
     return render_template('dash.html')
 
 @app.route('/send', methods=['GET'])
-def create_restaurant():
+def send():
     print('Request for send CofC page received')
     return render_template('send.html')
 
