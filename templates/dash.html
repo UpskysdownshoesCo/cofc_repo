@@ -3,27 +3,30 @@
 
 <!-- Main content -->
 <main class="flex-grow p-4">
-    <div class="grid grid-cols-6 gap-4">
-        <!-- Buttons in 2 rows of 3, quite big -->
-        <div class="col-span-2">
-            <a class="button-large bg-white w-full h-full rounded shadow p-4 text-center" href="{{ url_for('send') }}">Send CofC's</a>
-        </div>
-        <div class="col-span-2">
-            <button class="button-large bg-white w-full h-full rounded shadow p-4 text-center">Inbox</button>
-        </div>
-        <div class="col-span-2">
-            <button class="button-large bg-white w-full h-full rounded shadow p-4 text-center">Button</button>
-        </div>
-        <!-- Corrected second row -->
-        <div class="col-span-2">
-            <button class="button-large bg-white w-full h-full rounded shadow p-4 text-center">Button</button>
-        </div>
-        <div class="col-span-2">
-            <button class="button-large bg-white w-full h-full rounded shadow p-4 text-center">Button</button>
-        </div>
-        <div class="col-span-2">
-            <button class="button-large bg-white w-full h-full rounded shadow p-4 text-center">Button</button>
+    <div class="flex justify-center">
+        <div class="grid grid-cols-6 gap-4 w-full max-w-4xl">
+
+                    <!-- Buttons in 2 rows of 3, quite big -->
+                    <div class="col-span-2">
+                        <a class="button-large bg-white w-full h-full rounded shadow p-4 text-center" href="{{ url_for('send') }}">Send CofC's</a>
+                    </div>
+                    <div class="col-span-2">
+                        <a class="button-large bg-white w-full h-full rounded shadow p-4 text-center">Inbox</a>
+                    </div>
+                    <div class="col-span-2">
+                        <a class="button-large bg-white w-full h-full rounded shadow p-4 text-center">Approvals</a>
+                    </div>
+                    <!-- Corrected second row -->
+                    <div class="col-span-2">
+                        <a class="button-large bg-white w-full h-full rounded shadow p-4 text-center">Button</a>
+                    </div>
+                    <div class="col-span-2">
+                        <a class="button-large bg-white w-full h-full rounded shadow p-4 text-center">Button</a>
+                    </div>
+                    <div class="col-span-2">
+                        <a class="button-large bg-white w-full h-full rounded shadow p-4 text-center">Account</a>
+                    </div>
         </div>
     </div>
-</main>
-{% endblock %}
+ </main>
+ {% endblock %}
