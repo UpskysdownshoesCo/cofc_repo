@@ -62,8 +62,13 @@ from models import Restaurant, Review, Users
 @app.route('/', methods=['GET'])
 def index():
     print('Request for index page received')
-    restaurants = Restaurant.query.all()
-    return render_template('new_base.html', restaurants=restaurants)
+    #restaurants = Restaurant.query.all()
+    return render_template('dash.html')
+
+@app.route('/send', methods=['GET'])
+def create_restaurant():
+    print('Request for send CofC page received')
+    return render_template('send.html')
 
 @app.route('/<int:id>', methods=['GET'])
 def details(id):
