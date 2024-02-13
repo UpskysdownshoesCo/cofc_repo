@@ -15,3 +15,17 @@ class Register(Form):
     company = StringField('Company', validators=[DataRequired()])
     password = PasswordField('password', validators=[DataRequired(), EqualTo('password2', message='Passwords must match'), Length(min=4,message='Must be at least 4 characters')])
     password2 = PasswordField('conform password', validators=[DataRequired(), Length(min=4,message='Must be at least 4 characters')])
+
+class SendCertificates(Form):
+    sender = EmailField('sender', validators=[DataRequired(), Email()])
+    recipient = EmailField('recipient', validators=[DataRequired(), Email()])
+    po_number = StringField('PO number', validators=[DataRequired()])
+    batch_number = StringField('Batch Number')
+    part_number = StringField('Part Number')
+    assembly_number = StringField('Assembly Number')
+    manufacturing_country = StringField('Manufacturing Country')
+    reach_compliant = BooleanField('Reach Compliant?')
+    hazardous = BooleanField('Hazardous?')
+    material_expiry_date = StringField('Material Expiry Date')
+    additional_notes = TextAreaField('Additional Notes')
+

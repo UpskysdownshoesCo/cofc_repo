@@ -18,28 +18,40 @@
     <div class="flex h-screen">
         <!-- Left Section -->
         <div class="w-1/2 p-8">
-            <div class="mb-4">
-                <h2 class="font-semibold mb-2">Required Info:</h2>
-                <input type="text" placeholder="Recipient" class="w-full mb-2 p-2 border border-gray-300 rounded">
-                <input type="text" placeholder="PO Number" class="w-full mb-2 p-2 border border-gray-300 rounded">
-            </div>
-            <div class="mb-4">
-                <h2 class="font-semibold mb-2">Additional Info:</h2>
-                <input type="text" placeholder="Batch Number" class="w-full mb-2 p-2 border border-gray-300 rounded">
-                <input type="text" placeholder="Part Number" class="w-full mb-2 p-2 border border-gray-300 rounded">
-                <input type="text" placeholder="Assembly Number" class="w-full mb-2 p-2 border border-gray-300 rounded">
-                <input type="text" placeholder="Manufacturing Country" class="w-full mb-2 p-2 border border-gray-300 rounded">
-                <div class="flex items-center mb-2">
-                    <label class="mr-2">Reach Compliant?</label>
-                    <input type="checkbox" class="form-checkbox h-5 w-5 text-gray-600">
+            <form method="POST">
+                
+                <div class="mb-4">
+                    <h2 class="font-semibold mb-2">Required Info:</h2>
+                    {{ form.recipient.label }}
+                    {{ form.recipient(class="w-full mb-2 p-2 border border-gray-300 rounded") }}
+                    {{ form.po_number.label }}
+                    {{ form.po_number(class="w-full mb-2 p-2 border border-gray-300 rounded") }}
                 </div>
-                <div class="flex items-center mb-2">
-                    <label class="mr-2">Hazardous?</label>
-                    <input type="checkbox" class="form-checkbox h-5 w-5 text-gray-600">
+                <div class="mb-4">
+                    <h2 class="font-semibold mb-2">Additional Info:</h2>
+                    {{ form.batch_number.label }}
+                    {{ form.batch_number(class="w-full mb-2 p-2 border border-gray-300 rounded") }}
+                    {{ form.part_number.label }}
+                    {{ form.part_number(class="w-full mb-2 p-2 border border-gray-300 rounded") }}
+                    {{ form.assembly_number.label }}
+                    {{ form.assembly_number(class="w-full mb-2 p-2 border border-gray-300 rounded") }}
+                    {{ form.manufacturing_country.label }}
+                    {{ form.manufacturing_country(class="w-full mb-2 p-2 border border-gray-300 rounded") }}
+                    <div class="flex items-center mb-2">
+                        {{ form.reach_compliant.label }}
+                        {{ form.reach_compliant(class="form-checkbox h-5 w-5 text-gray-600") }}
+                    </div>
+                    <div class="flex items-center mb-2">
+                        {{ form.hazardous.label }}
+                        {{ form.hazardous(class="form-checkbox h-5 w-5 text-gray-600") }}
+                    </div>
+                    {{ form.material_expiry_date.label }}
+                    {{ form.material_expiry_date(class="w-full mb-2 p-2 border border-gray-300 rounded") }}
                 </div>
-                <input type="text" placeholder="Material Expiry Date" class="w-full mb-2 p-2 border border-gray-300 rounded">
-            </div>
-            <textarea placeholder="Additional Notes" class="w-full p-2 border border-gray-300 rounded" rows="4"></textarea>
+                {{ form.additional_notes.label }}
+                {{ form.additional_notes(class="w-full p-2 border border-gray-300 rounded", rows=4) }}
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
         </div>
         <!-- Right Section -->
         <div class="w-1/2 p-8">

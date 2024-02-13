@@ -10,6 +10,20 @@ class Users(db.Model):
     name = Column(String(200))
     company = Column(String(200), unique=True, nullable=False)
     
+class SendCertificates(db.Model):
+    __tablename__ = 'send_certificates'
+    id = Column(Integer, primary_key=True)
+    sender = Column(String(200), nullable=False)
+    recipient = Column(String(200), nullable=False)
+    po_number = Column(String(50), nullable=False)
+    batch_number = Column(String(50), nullable=True)
+    part_number = Column(String(50), nullable=True)
+    assembly_number = Column(String(50), nullable=True)
+    manufacturing_country = Column(String(50), nullable=True)
+    reach_compliant = Column(Boolean, nullable=True)
+    hazardous = Column(Boolean, nullable=True)
+    material_expiry_date = Column(String(50), nullable=True)
+    additional_notes = Column(Text, nullable=True)
 
 class Restaurant(db.Model):
     __tablename__ = 'restaurant'
