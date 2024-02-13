@@ -82,12 +82,31 @@
         </div>
     </div>
     <script>
-        document.querySelectorAll('.tab-button').forEach(button => {
-            button.addEventListener('click', () => {
-                const target = document.querySelector(button.dataset.tabTarget);
-                document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
-                target.classList.add('active');
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('.tab-button').forEach(button => {
+                button.addEventListener('click', () => {
+                    // First, remove 'active' class from all tab buttons to reset the state
+                    document.querySelectorAll('.tab-button').forEach(btn => {
+                        btn.classList.remove('active');
+                    });
+
+                    // Then, add 'active' class to the clicked button
+                    button.classList.add('active');
+
+                    // Hide all tab content
+                    document.querySelectorAll('.tab').forEach(tab => {
+                        tab.classList.remove('active');
+                    });
+
+                    // Show the clicked tab's content
+                    const target = document.querySelector(button.dataset.tabTarget);
+                    if (target) {
+                        target.classList.add('active');
+                    }
+                });
             });
-        });</script>
+        });
+    </script>
+
 </body>
 {% endblock %}
