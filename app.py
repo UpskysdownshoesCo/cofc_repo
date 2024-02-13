@@ -57,7 +57,7 @@ db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 
 # The import must be done after db initialization due to circular import issue
-from models import Restaurant, Review, Users
+from models import Restaurant, Review, Users, SendCertificates
 
 @app.route('/', methods=['GET'])
 def index():
@@ -70,12 +70,54 @@ def send():
     print('Request for send CofC page received')
     return render_template('send.html')
 
+#@app.route('/send_certificates', methods=['GET', 'POST'])
+#def send_certificates():
+ #   form = SendCertificates()
+#    
+#        # Process the form data, e.g., save to database
+#    flash('Certificate data submitted successfully.')
+#    return redirect(url_for('some_endpoint'))  # Redirect to a different page, if needed
+#    return render_template('s.html', form=form)
+
+
+
+
+
+@app.route('/upload_blob', methods=['POST'])
+@csrf.exempt
+def upload_blob():
+    try:
+        if 'file' not in request.files:
+            return "No file part"
+
+        file = request.files['file']
+
+        if file.filename == '':
+            return "No selected file"
+
+        blob_name = file.filename
+        blob_client = container_client.get_blob_client(blob_name)
+
+        # Upload the file to Azure Blob Storage
+        blob_client.upload_blob(file)
+
+        return "File uploaded successfully"
+    except Exception as e:
+        logging.exception("An error occurred:")
+        return "Internal Server Error"
+        
+
+@app.route('/favicon.ico')
+def favicon():
+    return send_from_directory(os.path.join(app.root_path, 'static'),
+                               'favicon.ico', mimetype='image/vnd.microsoft.icon')
+
 @app.route('/<int:id>', methods=['GET'])
 def details(id):
     restaurant = Restaurant.query.where(Restaurant.id == id).first()
     reviews = Review.query.where(Review.restaurant == id)
     return render_template('details.html', restaurant=restaurant, reviews=reviews)
-
+    
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     form = LoginForm()
@@ -172,35 +214,5 @@ def utility_processor():
         return {'avg_rating': avg_rating, 'review_count': review_count, 'stars_percent': stars_percent}
 
     return dict(star_rating=star_rating)
-
-@app.route('/upload_blob', methods=['POST'])
-@csrf.exempt
-def upload_blob():
-    try:
-        if 'file' not in request.files:
-            return "No file part"
-
-        file = request.files['file']
-
-        if file.filename == '':
-            return "No selected file"
-
-        blob_name = file.filename
-        blob_client = container_client.get_blob_client(blob_name)
-
-        # Upload the file to Azure Blob Storage
-        blob_client.upload_blob(file)
-
-        return "File uploaded successfully"
-    except Exception as e:
-        logging.exception("An error occurred:")
-        return "Internal Server Error"
-        
-
-@app.route('/favicon.ico')
-def favicon():
-    return send_from_directory(os.path.join(app.root_path, 'static'),
-                               'favicon.ico', mimetype='image/vnd.microsoft.icon')
-
 if __name__ == '__main__':
     app.run(debug=True)
