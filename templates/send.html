@@ -46,7 +46,7 @@
                     <div class="flex">
                         <button class="tab-button px-4 py-2 border-r border-gray-300" data-tab-target="#material">Material</button>
                         <button class="tab-button px-4 py-2 border-r border-gray-300" data-tab-target="#plating">Plating</button>
-                        <button class="tab-button px-4 py-2 border-r border-gray-300" data-tab-target="#plating">Manufacturing</button>
+                        <button class="tab-button px-4 py-2 border-r border-gray-300" data-tab-target="#manufacturing">Manufacturing</button>
                     </div>
                 </div>
                 <div id="material" class="tab active">
@@ -67,7 +67,7 @@
                     </div>
                 </div>
 
-                <div id="plating" class="tab">
+                <div id="manufacturing" class="tab">
                     <div class="border border-dashed border-gray-400 rounded p-4 text-center">
                         <form method="POST" action="{{ url_for('upload_blob') }}" enctype="multipart/form-data">
                             <input type="file" name="file">
