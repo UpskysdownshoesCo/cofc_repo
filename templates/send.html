@@ -7,6 +7,8 @@
 
         .tab.active {
             display: block;
+            background-color: #007bff; /* Active tab button background color */
+            color: white;
         }
 </style>
 <body class="bg-gray-50 font-sans">
@@ -44,25 +46,34 @@
                     <div class="flex">
                         <button class="tab-button px-4 py-2 border-r border-gray-300" data-tab-target="#material">Material</button>
                         <button class="tab-button px-4 py-2 border-r border-gray-300" data-tab-target="#plating">Plating</button>
+                        <button class="tab-button px-4 py-2 border-r border-gray-300" data-tab-target="#plating">Manufacturing</button>
                     </div>
                 </div>
                 <div id="material" class="tab active">
                     <div class="border border-dashed border-gray-400 rounded p-4 text-center">
-                        Upload material files here
+                        <form method="POST" action="{{ url_for('upload_blob') }}" enctype="multipart/form-data">
+                            <input type="file" name="file">
+                            <button type="submit">Upload Material</button>
+                        </form>
                     </div>
-                    <form method="POST" action="{{ url_for('upload_blob') }}" enctype="multipart/form-data">
-                        <input type="file" name="file">
-                        <button type="submit">Upload Material</button>
-                    </form>
                 </div>
+
                 <div id="plating" class="tab">
                     <div class="border border-dashed border-gray-400 rounded p-4 text-center">
-                        Drag and drop plating files here
+                        <form method="POST" action="{{ url_for('upload_blob') }}" enctype="multipart/form-data">
+                            <input type="file" name="file">
+                            <button type="submit">Upload Plating</button>
+                        </form>
                     </div>
-                    <form method="POST" action="{{ url_for('upload_blob') }}" enctype="multipart/form-data">
-                        <input type="file" name="file">
-                        <button type="submit">Upload Plating</button>
-                    </form>
+                </div>
+
+                <div id="plating" class="tab">
+                    <div class="border border-dashed border-gray-400 rounded p-4 text-center">
+                        <form method="POST" action="{{ url_for('upload_blob') }}" enctype="multipart/form-data">
+                            <input type="file" name="file">
+                            <button type="submit">Upload Manufacturing</button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
