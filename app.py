@@ -65,8 +65,9 @@ def index():
     #restaurants = Restaurant.query.all()
     return render_template('dash.html')
 
-@app.route('/send', methods=['GET'])
+@app.route('/send', methods=['GET', 'POST'])
 def send():
+    form = SendCertificates()
     print('Request for send CofC page received')
     return render_template('send.html')
 
