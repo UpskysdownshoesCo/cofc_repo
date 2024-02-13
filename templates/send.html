@@ -1,5 +1,14 @@
 {% extends "base.html" %}
   {% block content %}
+<style>
+    .tab {
+        display: none;
+    }
+
+        .tab.active {
+            display: block;
+        }
+</style>
 <body class="bg-gray-50 font-sans">
     <div class="flex h-screen">
         <!-- Left Section -->
@@ -39,13 +48,21 @@
                 </div>
                 <div id="material" class="tab active">
                     <div class="border border-dashed border-gray-400 rounded p-4 text-center">
-                        Drag and drop material files here
+                        Upload material files here
                     </div>
+                    <form method="POST" action="{{ url_for('upload_blob') }}" enctype="multipart/form-data">
+                        <input type="file" name="file">
+                        <button type="submit">Upload Material</button>
+                    </form>
                 </div>
                 <div id="plating" class="tab">
                     <div class="border border-dashed border-gray-400 rounded p-4 text-center">
                         Drag and drop plating files here
                     </div>
+                    <form method="POST" action="{{ url_for('upload_blob') }}" enctype="multipart/form-data">
+                        <input type="file" name="file">
+                        <button type="submit">Upload Plating</button>
+                    </form>
                 </div>
             </div>
         </div>
