@@ -68,7 +68,7 @@ def index():
 @app.route('/send', methods=['GET', 'POST'])
 def send():
     form = SendCertificates()
-    new_entry = send_certificates(
+    new_entry = SendCertificates(
             recipient=form.recipient.data,
             po_number=form.po_number.data,
             batch_number=form.batch_number.data,
