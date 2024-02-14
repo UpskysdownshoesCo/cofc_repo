@@ -13,14 +13,14 @@ class Users(db.Model):
 class SendCertificatesModel(db.Model):
     __tablename__ = 'send_certificates'
     id = Column(Integer, primary_key=True)
-    recipient = Column(String(200), nullable=False)
     sender = Column(String(200), nullable=True)
+    recipient = Column(String(200), nullable=False)
     po_number = Column(String(50), nullable=False)
-    batch_number = Column(String(50), nullable= Column(String(50), nullable=True)
-    reach_compliant = ColTrue)
+    batch_number = Column(String(50), nullable=True)
     part_number = Column(String(50), nullable=True)
     assembly_number = Column(String(50), nullable=True)
-    manufacturing_country =umn(Boolean, nullable=True)
+    manufacturing_country = Column(String(50), nullable=True)
+    reach_compliant = Column(Boolean, nullable=True)
     hazardous = Column(Boolean, nullable=True)
     material_expiry_date = Column(String(50), nullable=True)
     additional_notes = Column(Text, nullable=True)
