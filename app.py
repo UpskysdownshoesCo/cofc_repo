@@ -57,7 +57,7 @@ db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 
 # The import must be done after db initialization due to circular import issue
-from models import Restaurant, Review, Users, SendCertificates
+from models import Restaurant, Review, Users, SendCertificatesModel
 
 @app.route('/', methods=['GET'])
 def index():
@@ -68,7 +68,7 @@ def index():
 @app.route('/send', methods=['GET', 'POST'])
 def send():
     form = SendCertificates()
-    new_entry = form(
+    new_entry = SendCertificatesModel(
             recipient=form.recipient.data,
             po_number=form.po_number.data,
             batch_number=form.batch_number.data,

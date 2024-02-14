@@ -10,7 +10,7 @@ class Users(db.Model):
     name = Column(String(200))
     company = Column(String(200), unique=True, nullable=False)
     
-class SendCertificates(db.Model):
+class SendCertificatesModel(db.Model):
     __tablename__ = 'send_certificates'
     id = Column(Integer, primary_key=True)
     sender = Column(String(200), nullable=False)
