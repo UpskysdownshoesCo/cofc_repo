@@ -68,6 +68,21 @@ def index():
 @app.route('/send', methods=['GET', 'POST'])
 def send():
     form = SendCertificates()
+    new_entry = send_certificates(
+            recipient=form.recipient.data,
+            po_number=form.po_number.data,
+            batch_number=form.batch_number.data,
+            part_number=form.part_number.data,
+            assembly_number=form.assembly_number.data,
+            manufacturing_country=form.manufacturing_country.data,
+            reach_compliant=form.reach_compliant.data,
+            hazardous=form.hazardous.data,
+            material_expiry_date=form.material_expiry_date.data,
+            additional_notes=form.additional_notes.data
+            # Add more fields as necessary
+        )
+        db.session.add(new_entry)
+        db.session.commit()
     print('Request for send CofC page received')
     return render_template('send.html')
 
