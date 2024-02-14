@@ -17,7 +17,7 @@ class Register(Form):
     password2 = PasswordField('conform password', validators=[DataRequired(), Length(min=4,message='Must be at least 4 characters')])
 
 class SendCertificates(Form):
-    sender = EmailField('sender', validators=[DataRequired(), Email()])
+    sender = EmailField('sender', validators=[ Email()])
     recipient = EmailField('recipient', validators=[DataRequired(), Email()])
     po_number = StringField('PO number', validators=[DataRequired()])
     batch_number = StringField('Batch Number')

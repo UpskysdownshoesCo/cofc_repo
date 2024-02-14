@@ -45,7 +45,7 @@ def upgrade():
     )
     op.create_table('certificates',
     sa.Column('id', sa.Integer(), nullable=False, primary_key=True),
-    sa.Column('sender', sa.String(length=200), nullable=False),
+    sa.Column('sender', sa.String(length=200), nullable=True),
     sa.Column('recipient', sa.String(length=200), nullable=False),
     sa.Column('po_number', sa.String(length=50), nullable=False),
     sa.Column('batch_number', sa.String(length=50), nullable=True),
