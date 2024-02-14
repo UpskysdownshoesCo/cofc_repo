@@ -81,8 +81,8 @@ def send():
             additional_notes=form.additional_notes.data
             # Add more fields as necessary
         )
-        db.session.add(new_entry)
-        db.session.commit()
+    db.session.add(new_entry)
+    db.session.commit()
     print('Request for send CofC page received')
     return render_template('send.html')
 
