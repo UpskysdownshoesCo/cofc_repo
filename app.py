@@ -73,7 +73,7 @@ def send_certificates():
         # Process the form data, e.g., save to database
     flash('Certificate data submitted successfully.')
    #return redirect(url_for('some_endpoint'))  # Redirect to a different page, if needed
-    return render_template('send.html')
+    return render_template('send.html', form=form)
 
 @app.route('/send', methods=['POST'])
 def send():
@@ -94,7 +94,7 @@ def send():
     db.session.add(new_entry)
     db.session.commit()
     print('Request for send CofC page received')
-    return render_template('send.html', form=form)
+    return render_template('send.html')
 
 
 
