@@ -80,6 +80,7 @@ def send_certificates():
 def send():
     form = SendCertificates()
     new_entry = SendCertificatesModel(
+            sender=form.sender.data,
             recipient=form.recipient.data,
             po_number=form.po_number.data,
             batch_number=form.batch_number.data,
