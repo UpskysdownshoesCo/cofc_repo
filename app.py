@@ -77,7 +77,7 @@ def send_certificates():
 
 @app.route('/send', methods=['POST'])
 def send():
-    
+    form = SendCertificates()
     new_entry = SendCertificatesModel(
             recipient=form.recipient.data,
             po_number=form.po_number.data,
@@ -94,7 +94,7 @@ def send():
     db.session.add(new_entry)
     db.session.commit()
     print('Request for send CofC page received')
-    return render_template('send.html')
+    return render_template('dash.html')
 
 
 
