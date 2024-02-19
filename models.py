@@ -12,7 +12,7 @@ class Users(db.Model):
     
 class SendCertificatesModel(db.Model):
     __tablename__ = 'send_certificates'
-    id = Column(Integer, primary_key=True)
+    #id = Column(Integer, primary_key=True)
     sender = Column(String(200), nullable=True)
     recipient = Column(String(200), nullable=False)
     po_number = Column(String(50), nullable=False)
