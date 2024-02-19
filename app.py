@@ -118,6 +118,7 @@ def upload_blob():
         blob_client.upload_blob(file)
 
         flash('Certificate data submitted successfully.')
+        return
     except Exception as e:
         logging.exception("An error occurred:")
         return "Internal Server Error"
