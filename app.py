@@ -76,6 +76,7 @@ def send_certificates():
     return render_template('send.html', form=form)
 
 @app.route('/send', methods=['POST'])
+@csrf.exempt
 def send():
     form = SendCertificates()
     new_entry = SendCertificatesModel(
