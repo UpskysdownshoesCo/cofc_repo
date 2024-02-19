@@ -18,7 +18,7 @@ class Register(Form):
 
 class SendCertificates(Form):
     sender = EmailField('sender', validators=[ Email()])
-    recipient = EmailField('recipient', validators=[DataRequired(), Email()])
+    recipient = EmailField('Recipient', validators=[DataRequired(), Email()])
     po_number = StringField('PO number', validators=[DataRequired()])
     batch_number = StringField('Batch Number')
     part_number = StringField('Part Number')
