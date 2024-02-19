@@ -69,6 +69,7 @@ def index():
 
 @app.route('/send_certificates', methods=['GET'])
 def send_certificates():
+    form = SendCertificates()
         # Process the form data, e.g., save to database
     flash('Certificate data submitted successfully.')
    #return redirect(url_for('some_endpoint'))  # Redirect to a different page, if needed
@@ -76,7 +77,7 @@ def send_certificates():
 
 @app.route('/send', methods=['POST'])
 def send():
-    form = SendCertificates()
+    
     new_entry = SendCertificatesModel(
             recipient=form.recipient.data,
             po_number=form.po_number.data,
