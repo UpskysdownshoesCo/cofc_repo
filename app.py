@@ -117,7 +117,7 @@ def upload_blob():
         # Upload the file to Azure Blob Storage
         blob_client.upload_blob(file)
 
-        return "File uploaded successfully"
+        flash('Certificate data submitted successfully.')
     except Exception as e:
         logging.exception("An error occurred:")
         return "Internal Server Error"
