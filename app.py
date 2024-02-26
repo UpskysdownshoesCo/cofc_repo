@@ -75,7 +75,7 @@ def send_certificates():
    #return redirect(url_for('some_endpoint'))  # Redirect to a different page, if needed
     return render_template('send.html', form=form)
 
-@app.route('/send', methods=['POST'])
+@app.route('/send', methods=['POST', 'GET'])
 @csrf.exempt
 def send():
     form = SendCertificates()
