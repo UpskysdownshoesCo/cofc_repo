@@ -1,4 +1,4 @@
-from flask_wtf import Form
+from flask_wtf import FlaskForm
 from wtforms import StringField, IntegerField, RadioField, PasswordField,BooleanField, SelectField,TextAreaField
 
 from wtforms.fields import DateTimeField, DateField, EmailField
@@ -16,7 +16,7 @@ class Register(Form):
     password = PasswordField('password', validators=[DataRequired(), EqualTo('password2', message='Passwords must match'), Length(min=4,message='Must be at least 4 characters')])
     password2 = PasswordField('conform password', validators=[DataRequired(), Length(min=4,message='Must be at least 4 characters')])
 
-class SendCertificates(Form):
+class SendCertificates(FlaskForm):
     sender = EmailField('sender', validators=[ DataRequired(),Email()])
     recipient = EmailField('Recipient', validators=[DataRequired(), Email()])
     po_number = StringField('PO number', validators=[DataRequired()])
