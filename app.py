@@ -119,10 +119,10 @@ def send():
         
         flash('Certificate data submitted successfully.')
         return render_template('dash.html')
-        else:
-            for fieldName, errorMessages in form.errors.items():
-                for err in errorMessages:
-                    flash(f"Error in {fieldName}: {err}")
+    else:
+        for fieldName, errorMessages in form.errors.items():
+            for err in errorMessages:
+                flash(f"Error in {fieldName}: {err}")
         return render_template('send.html', form=form)
 
 
