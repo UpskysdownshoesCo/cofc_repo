@@ -115,7 +115,7 @@ def send():
                 return 
             except Exception as e:
                 logging.exception("An error occurred:")
-            return "Internal Server Error"
+                return "Internal Server Error"
         
         flash('Certificate data submitted successfully.')
         return render_template('dash.html')
