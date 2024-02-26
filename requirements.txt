@@ -8,3 +8,4 @@ SQLAlchemy
 azure-identity
 azure-storage-blob
 WTForms
+email_validator
