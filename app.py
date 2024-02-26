@@ -112,7 +112,7 @@ def send():
             blob_client.upload_blob(file)
 
             flash('Certificate data submitted successfully.')
-            return 
+            return render_template('dash.html')
         except Exception as e:
             logging.exception("An error occurred:")
             return "Internal Server Error"
