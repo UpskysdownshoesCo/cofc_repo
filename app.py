@@ -96,29 +96,30 @@ def send():
             )
         db.session.add(new_entry)
         db.session.commit()  
-        try:
-            if 'file' not in request.files:
-                return "No file part"
 
-            file = request.files['file']
+        # Adjusted to handle multiple files
+        file_keys = ['material_file', 'plating_file', 'manufacturing_file']  # The names of your file inputs
+        for key in file_keys:
+            if key not in request.files:
+                flash(f"No file part for {key}")
+                continue
 
-            if file.filename == '':
-                return "No selected file"
+            file = request.files[key]
+            if file and file.filename:
+                filename = secure_filename(file.filename)
+                blob_name = filename
+                blob_client = container_client.get_blob_client(blob_name)
 
-            blob_name = file.filename
-            blob_client = container_client.get_blob_client(blob_name)
-
-            # Upload the file to Azure Blob Storage
-            blob_client.upload_blob(file)
-
-            flash('Certificate data submitted successfully.')
-            return render_template('dash.html')
-        except Exception as e:
-            logging.exception("An error occurred:")
-            return "Internal Server Error"
+                # Upload the file to Azure Blob Storage
+                try:
+                    blob_client.upload_blob(file)
+                except Exception as e:
+                    logging.exception("An error occurred during file upload.")
+                    flash("An error occurred during file upload.")
+                    return redirect('/')  # Adjust as needed if you want to return to the form
         
-        flash('Certificate data submitted successfully.')
-        return render_template('dash.html')
+        flash('Certificate data and files submitted successfully.')
+        return redirect(url_for('dash'))  # Ensure this is the correct endpoint for your dashboard
     else:
         for fieldName, errorMessages in form.errors.items():
             for err in errorMessages:
