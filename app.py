@@ -75,28 +75,34 @@ def send_certificates():
    #return redirect(url_for('some_endpoint'))  # Redirect to a different page, if needed
     return render_template('send.html', form=form)
 
-@app.route('/send', methods=['POST'])
+@app.route('/send', methods=['GET', 'POST'])
 @csrf.exempt
 def send():
     form = SendCertificates()
-    new_entry = SendCertificatesModel(
-            sender=form.sender.data,
-            recipient=form.recipient.data,
-            po_number=form.po_number.data,
-            batch_number=form.batch_number.data,
-            part_number=form.part_number.data,
-            assembly_number=form.assembly_number.data,
-            manufacturing_country=form.manufacturing_country.data,
-            reach_compliant=form.reach_compliant.data,
-            hazardous=form.hazardous.data,
-            material_expiry_date=form.material_expiry_date.data,
-            additional_notes=form.additional_notes.data
-            # Add more fields as necessary
-        )
-    db.session.add(new_entry)
-    db.session.commit()
-    print('Request for send CofC page received')
-    return render_template('dash.html')
+    if form.validate_on_submit():
+        new_entry = SendCertificatesModel(
+                sender=form.sender.data,
+                recipient=form.recipient.data,
+                po_number=form.po_number.data,
+                batch_number=form.batch_number.data,
+                part_number=form.part_number.data,
+                assembly_number=form.assembly_number.data,
+                manufacturing_country=form.manufacturing_country.data,
+                reach_compliant=form.reach_compliant.data,
+                hazardous=form.hazardous.data,
+                material_expiry_date=form.material_expiry_date.data,
+                additional_notes=form.additional_notes.data
+                # Add more fields as necessary
+            )
+        db.session.add(new_entry)
+        db.session.commit()    
+        flash('Certificate data submitted successfully.')
+        return render_template('dash.html')
+    else:
+        for fieldName, errorMessages in form.errors.items():
+            for err in errorMessages:
+                flash(f"Error in {fieldName}: {err}")
+        return render_template('send.html', form=form)
 
 
 
