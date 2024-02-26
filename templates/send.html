@@ -29,9 +29,9 @@
     }
 </style>
 <body class="bg-gray-50 font-sans">
-    <div class="flex h-screen">
-        <!-- Left Section -->
-        <form action="{{ url_for('send') }}" enctype="multipart/form-data" method="POST" name="Send">
+    <form action="{{ url_for('send') }}" enctype="multipart/form-data" method="POST" name="Send">
+        <div class="flex h-screen">
+            <!-- Left Section -->
             <div class="w-1/2 p-8">
                 <div class="mb-4">
                     <h2 class="font-semibold mb-2">Required Info:</h2>
@@ -80,26 +80,27 @@
                     </div>
                     <div id="material" class="tab active">
                         <div class="border border-dashed border-gray-400 rounded p-4 text-center">
-                            <label>Material</label>
+
                             <input type="file" name="material_file" class="mb-2">
                         </div>
                     </div>
                     <div id="plating" class="tab">
                         <div class="border border-dashed border-gray-400 rounded p-4 text-center">
-                            <label>Plating</label>
+
                             <input type="file" name="plating_file" class="mb-2">
                         </div>
                     </div>
                     <div id="manufacturing" class="tab">
                         <div class="border border-dashed border-gray-400 rounded p-4 text-center">
-                            <label>Manufacturing</label>
+
                             <input type="file" name="manufacturing_file" class="mb-2">
                         </div>
                     </div>
                 </div>
             </div>
-        </form>
-    </div>
+
+        </div>
+    </form>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             document.querySelectorAll('.tab-button').forEach(button => {
