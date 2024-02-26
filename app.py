@@ -119,7 +119,7 @@ def send():
                     return redirect('/')  # Adjust as needed if you want to return to the form
         
         flash('Certificate data and files submitted successfully.')
-        return redirect(url_for('dash'))  # Ensure this is the correct endpoint for your dashboard
+        return redirect('/')  # Ensure this is the correct endpoint for your dashboard
     else:
         for fieldName, errorMessages in form.errors.items():
             for err in errorMessages:
