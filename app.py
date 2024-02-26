@@ -75,7 +75,7 @@ def send_certificates():
    #return redirect(url_for('some_endpoint'))  # Redirect to a different page, if needed
     return render_template('send.html', form=form)
 
-@app.route('/send', methods=['GET', 'POST'])
+@app.route('/send', methods=['POST'])
 @csrf.exempt
 def send():
     form = SendCertificates()
@@ -95,13 +95,34 @@ def send():
                 # Add more fields as necessary
             )
         db.session.add(new_entry)
-        db.session.commit()    
+        db.session.commit()  
+            try:
+                if 'file' not in request.files:
+                    return "No file part"
+
+                file = request.files['file']
+
+                if file.filename == '':
+                    return "No selected file"
+
+                blob_name = file.filename
+                blob_client = container_client.get_blob_client(blob_name)
+
+                # Upload the file to Azure Blob Storage
+                blob_client.upload_blob(file)
+
+                flash('Certificate data submitted successfully.')
+                return 
+            except Exception as e:
+                logging.exception("An error occurred:")
+            return "Internal Server Error"
+        
         flash('Certificate data submitted successfully.')
         return render_template('dash.html')
-    else:
-        for fieldName, errorMessages in form.errors.items():
-            for err in errorMessages:
-                flash(f"Error in {fieldName}: {err}")
+        else:
+            for fieldName, errorMessages in form.errors.items():
+                for err in errorMessages:
+                    flash(f"Error in {fieldName}: {err}")
         return render_template('send.html', form=form)
 
 

@@ -31,9 +31,8 @@
 <body class="bg-gray-50 font-sans">
     <div class="flex h-screen">
         <!-- Left Section -->
-        <div class="w-1/2 p-8">
-            <form action="{{ url_for('send') }}" method="POST" name="Send">
-                
+        <form action="{{ url_for('send') }}" enctype="multipart/form-data" method="POST" name="Send">
+            <div class="w-1/2 p-8">
                 <div class="mb-4">
                     <h2 class="font-semibold mb-2">Required Info:</h2>
                     {{ form.sender.label }}
@@ -67,47 +66,39 @@
                 {{ form.additional_notes.label }}
                 {{ form.additional_notes(class="w-full p-2 border border-gray-300 rounded", rows=4) }}
                 <button type="submit" class="btn btn-primary">Submit</button>
-            </form>
-        </div>
-        <!-- Right Section -->
-        <div class="w-1/2 p-8">
-            <div class="border border-gray-300 rounded p-4">
-                <div class="flex flex-col items-start mb-4">
-                    <h3 class="font-semibold mb-2">File Drop Section</h3>
-                    <div class="flex">
-                        <button class="tab-button px-4 py-2 border-r border-gray-300" data-tab-target="#material">Material</button>
-                        <button class="tab-button px-4 py-2 border-r border-gray-300" data-tab-target="#plating">Plating</button>
-                        <button class="tab-button px-4 py-2 border-r border-gray-300" data-tab-target="#manufacturing">Manufacturing</button>
+            </div>
+            <!-- Right Section -->
+            <div class="w-1/2 p-8">
+                <div class="border border-gray-300 rounded p-4">
+                    <div class="flex flex-col items-start mb-4">
+                        <h3 class="font-semibold mb-2">File Drop Section</h3>
+                        <div class="flex">
+                            <button class="tab-button px-4 py-2 border-r border-gray-300" data-tab-target="#material">Material</button>
+                            <button class="tab-button px-4 py-2 border-r border-gray-300" data-tab-target="#plating">Plating</button>
+                            <button class="tab-button px-4 py-2 border-r border-gray-300" data-tab-target="#manufacturing">Manufacturing</button>
+                        </div>
                     </div>
-                </div>
-                <div id="material" class="tab active">
-                    <div class="border border-dashed border-gray-400 rounded p-4 text-center">
-                        <form method="POST" action="{{ url_for('upload_blob') }}" enctype="multipart/form-data">
-                            <input type="file" name="file">
-                            <button type="submit">Upload Material</button>
-                        </form>
+                    <div id="material" class="tab active">
+                        <div class="border border-dashed border-gray-400 rounded p-4 text-center">
+                            <input type="file" name="material_file" class="mb-2">
+                            <button >Upload Material</button>
+                        </div>
                     </div>
-                </div>
-
-                <div id="plating" class="tab">
-                    <div class="border border-dashed border-gray-400 rounded p-4 text-center">
-                        <form method="POST" action="{{ url_for('upload_blob') }}" enctype="multipart/form-data">
-                            <input type="file" name="file">
-                            <button type="submit">Upload Plating</button>
-                        </form>
+                    <div id="plating" class="tab">
+                        <div class="border border-dashed border-gray-400 rounded p-4 text-center">
+                            <input type="file" name="plating_file" class="mb-2">
+                            <button >Upload Plating</button>
+                        </div>
                     </div>
-                </div>
-
-                <div id="manufacturing" class="tab">
-                    <div class="border border-dashed border-gray-400 rounded p-4 text-center">
-                        <form method="POST" action="{{ url_for('upload_blob') }}" enctype="multipart/form-data">
-                            <input type="file" name="file">
-                            <button type="submit">Upload Manufacturing</button>
-                        </form>
+                    <div id="manufacturing" class="tab">
+                        <div class="border border-dashed border-gray-400 rounded p-4 text-center">
+                            <input type="file" name="manufacturing_file" class="mb-2">
+                            <button >Upload Manufacturing</button>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </form>
     </div>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
