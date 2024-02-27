@@ -66,14 +66,12 @@ def index():
     #restaurants = Restaurant.query.all()
     return render_template('dash.html')
 
-
-
 @app.route('/send_certificates', methods=['GET'])
 def send_certificates():
     form = SendCertificates()
         # Process the form data, e.g., save to database
     flash('Certificate data submitted successfully.')
-   #return redirect(url_for('some_endpoint'))  # Redirect to a different page, if needed
+    #return redirect(url_for('some_endpoint'))  # Redirect to a different page, if needed
     return render_template('send.html', form=form)
 
 @app.route('/send', methods=['POST', 'GET'])
@@ -117,16 +115,15 @@ def send():
                 except Exception as e:
                     logging.exception("An error occurred during file upload.")
                     flash("An error occurred during file upload.")
-                    return redirect('dash.html')  # Adjust as needed if you want to return to the form
+                    return redirect('/')  # Adjust as needed if you want to return to the form
         
         flash('Certificate data and files submitted successfully.')
-        return redirect('dash.html')  # Ensure this is the correct endpoint for your dashboard
+        return redirect('/')  # Ensure this is the correct endpoint for your dashboard
     else:
         for fieldName, errorMessages in form.errors.items():
             for err in errorMessages:
                 flash(f"Error in {fieldName}: {err}")
         return render_template('send.html', form=form)
-
 
 
 @app.route('/upload_blob', methods=['POST'])
@@ -153,7 +150,6 @@ def upload_blob():
         logging.exception("An error occurred:")
         return "Internal Server Error"
         
-
 @app.route('/favicon.ico')
 def favicon():
     return send_from_directory(os.path.join(app.root_path, 'static'),
@@ -181,8 +177,7 @@ def login():
         for user in users:
             if user.password == hashed_input_password:
                 return redirect('/index')
-
-            
+           
     #for u in user:
         #Hash enetered password using sha-256 and compare to database to find users account.
         #hashed = hashlib.sha256(form.password.data.encode("utf-8")).hexdigest()
