@@ -60,6 +60,7 @@ migrate = Migrate(app, db)
 from models import Restaurant, Review, Users, SendCertificatesModel
 
 @app.route('/', methods=['GET'])
+@csrf.exempt
 def index():
     print('Request for index page received')
     #restaurants = Restaurant.query.all()
