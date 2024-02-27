@@ -116,10 +116,10 @@ def send():
                 except Exception as e:
                     logging.exception("An error occurred during file upload.")
                     flash("An error occurred during file upload.")
-                    return redirect('/')  # Adjust as needed if you want to return to the form
+                    return redirect('dash.html')  # Adjust as needed if you want to return to the form
         
         flash('Certificate data and files submitted successfully.')
-        return redirect('/')  # Ensure this is the correct endpoint for your dashboard
+        return redirect('dash.html')  # Ensure this is the correct endpoint for your dashboard
     else:
         for fieldName, errorMessages in form.errors.items():
             for err in errorMessages:
