@@ -66,13 +66,13 @@ def index():
     #restaurants = Restaurant.query.all()
     return render_template('dash.html')
 
-@app.route('/send_certificates', methods=['GET'])
-def send_certificates():
-    form = SendCertificates()
-        # Process the form data, e.g., save to database
-    flash('Certificate data submitted successfully.')
-    #return redirect(url_for('some_endpoint'))  # Redirect to a different page, if needed
-    return render_template('send.html', form=form)
+# @app.route('/send_certificates', methods=['GET'])
+# def send_certificates():
+#     form = SendCertificates()
+#         # Process the form data, e.g., save to database
+#     flash('Certificate data submitted successfully.')
+#     #return redirect(url_for('some_endpoint'))  # Redirect to a different page, if needed
+#     return render_template('send.html', form=form)
 
 @app.route('/send', methods=['POST', 'GET'])
 @csrf.exempt
