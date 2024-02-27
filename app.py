@@ -105,7 +105,7 @@ def send():
 
             file = request.files[key]
             if file and file.filename:
-                filename = secure_filename(file.filename)
+                filename = file.filename
                 blob_name = filename
                 blob_client = container_client.get_blob_client(blob_name)
 
