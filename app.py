@@ -18,7 +18,7 @@ from azure.storage.blob import BlobServiceClient, BlobClient, ContainerClient
 
 app = Flask(__name__, static_folder='static')
 csrf = CSRFProtect(app)
-
+app.config['WTF_CSRF_ENABLED'] = False
 SECRET_KEY = os.urandom(32)
 app.config['SECRET_KEY'] = SECRET_KEY
 
