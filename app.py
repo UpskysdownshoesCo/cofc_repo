@@ -96,7 +96,7 @@ def send():
             )
         db.session.add(new_entry)
         db.session.commit()  
-
+        flash('Certificate data and files submitted successfully.')
         # Adjusted to handle multiple files
         file_keys = ['material_file', 'plating_file', 'manufacturing_file']  # The names of your file inputs
         for key in file_keys:
