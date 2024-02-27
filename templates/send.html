@@ -28,6 +28,18 @@
         border-radius: 4px;
     }
 </style>
+<div class="flash-messages">
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <ul>
+                {% for message in messages %}
+                    <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
+</div>
+
 <body class="bg-gray-50 font-sans">
     <form action="{{ url_for('send') }}" enctype="multipart/form-data" method="POST" name="Send">
         <div class="flex h-screen">
