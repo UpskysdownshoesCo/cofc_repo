@@ -89,7 +89,7 @@ def index():
 @csrf.exempt
 def send():
     query_params = UserItemRequestBuilder.UserItemRequestBuilderGetQueryParameters(
-		select = ["displayName","givenName","postalCode","identities"])
+		select = ["mail"])
 
     request_configuration = UserItemRequestBuilder.UserItemRequestBuilderGetRequestConfiguration(query_parameters = query_params)
 
