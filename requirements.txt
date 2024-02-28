@@ -9,3 +9,4 @@ azure-identity
 azure-storage-blob
 WTForms
 email_validator
+msgraph-sdk
