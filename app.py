@@ -11,9 +11,9 @@ from flask_wtf.csrf import CSRFProtect
 
 from forms import LoginForm, Register, SendCertificates
 
-from azure.identity import DefaultAzureCredential
+from azure.identity import DefaultAzureCredential, ClientSecretCredential
 from azure.storage.blob import BlobServiceClient, BlobClient, ContainerClient
-
+from msgraph import GraphServiceClient
 
 
 app = Flask(__name__, static_folder='static')
@@ -55,6 +55,25 @@ db = SQLAlchemy(app)
 
 # Enable Flask-Migrate commands "flask db init/migrate/upgrade" to work
 migrate = Migrate(app, db)
+
+# The client credentials flow requires that you request the
+# /.default scope, and pre-configure your permissions on the
+# app registration in Azure. An administrator must grant consent
+# to those permissions beforehand.
+scopes = ['https://graph.microsoft.com/.default']
+
+# Values from app registration
+tenant_id = '1aface79-3d26-4db1-9064-8140a2ce020c'
+client_id = 'ff3620ec-629b-42d5-b240-3cf85addcf16'
+client_secret = '._p8Q~u0P~p9c0u0samKPj3vod~3a61E1sx3qdlc'
+
+# azure.identity.aio
+credential = ClientSecretCredential(
+    tenant_id=tenant_id,
+    client_id=client_id,
+    client_secret=client_secret)
+
+graph_client = GraphServiceClient(credential, scopes) # type: ignore
 
 # The import must be done after db initialization due to circular import issue
 from models import Restaurant, Review, Users, SendCertificatesModel
