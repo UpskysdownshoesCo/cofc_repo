@@ -14,6 +14,7 @@ from forms import LoginForm, Register, SendCertificates
 from azure.identity import DefaultAzureCredential, ClientSecretCredential
 from azure.storage.blob import BlobServiceClient, BlobClient, ContainerClient
 from msgraph import GraphServiceClient
+from msgraph.generated.users.item.user_item_request_builder import UserItemRequestBuilder
 
 
 app = Flask(__name__, static_folder='static')
@@ -87,10 +88,17 @@ def index():
 @app.route('/send', methods=['POST', 'GET'])
 @csrf.exempt
 def send():
+    query_params = UserItemRequestBuilder.UserItemRequestBuilderGetQueryParameters(
+		select = ["displayName","givenName","postalCode","identities"])
+
+    request_configuration = UserItemRequestBuilder.UserItemRequestBuilderGetRequestConfiguration(query_parameters = query_params)
+
+    sender_email = graph_client.users.by_user_id('user-id').get(request_configuration = request_configuration)
+
     form = SendCertificates(csrf_enabled=False)
     if form.validate_on_submit():
         new_entry = SendCertificatesModel(
-                sender=form.sender.data,
+                sender= sender_email,
                 recipient=form.recipient.data,
                 po_number=form.po_number.data,
                 batch_number=form.batch_number.data,
