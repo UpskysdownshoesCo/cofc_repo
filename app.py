@@ -94,7 +94,7 @@ def send():
     request_configuration = UserItemRequestBuilder.UserItemRequestBuilderGetRequestConfiguration(query_parameters = query_params)
 
     sender_email = graph_client.users.by_user_id('user-id').get(request_configuration = request_configuration)
-
+    flash(f"sender = {sender_email}")
     form = SendCertificates(csrf_enabled=False)
     if form.validate_on_submit():
         new_entry = SendCertificatesModel(
