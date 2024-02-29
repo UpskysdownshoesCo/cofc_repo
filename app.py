@@ -88,7 +88,7 @@ async def get_user():
     flash(f"sender = " + sender_email)
     # Simulate some asynchronous operation, like fetching data from a server
     #await asyncio.sleep(1)
-    asyncio.run(get_user())
+    #asyncio.run(get_user())
     return sender_email
     #asyncio.run(get_user())
 
