@@ -1,7 +1,6 @@
 import os
 import logging
 import hashlib
-import asyncio
 from datetime import datetime
 
 from flask import Flask, redirect, render_template, request, send_from_directory, url_for, flash
@@ -100,9 +99,9 @@ def index():
 
 @app.route('/send', methods=['POST', 'GET'])
 @csrf.exempt
-async def send():    
+def send():    
     form = SendCertificates(csrf_enabled=False)
-    sender_email = await fetch_data()
+    sender_email = fetch_data()
     if form.validate_on_submit():
         new_entry = SendCertificatesModel(
                 sender= sender_email,
