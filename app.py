@@ -83,12 +83,14 @@ async def get_user():
 
     request_configuration = UserItemRequestBuilder.UserItemRequestBuilderGetRequestConfiguration(query_parameters = query_params)
 
-    sender_email = await graph_client.users.by_user_id('user-id').get(request_configuration = request_configuration)
+    #sender_email = await graph_client.users.by_user_id('user-id').get(request_configuration = request_configuration)
+    sender_email = await graph_client.me.get(request_configuration)
     flash(f"sender = " + sender_email)
     # Simulate some asynchronous operation, like fetching data from a server
     #await asyncio.sleep(1)
-    #return sender_email
     asyncio.run(get_user())
+    return sender_email
+    #asyncio.run(get_user())
 
 # The import must be done after db initialization due to circular import issue
 from models import Restaurant, Review, Users, SendCertificatesModel
