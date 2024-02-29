@@ -1,6 +1,7 @@
 import os
 import logging
 import hashlib
+import asyncio
 from datetime import datetime
 
 from flask import Flask, redirect, render_template, request, send_from_directory, url_for, flash
@@ -76,6 +77,18 @@ credential = ClientSecretCredential(
 
 graph_client = GraphServiceClient(credential, scopes) # type: ignore
 
+async def fetch_data():
+    query_params = UserItemRequestBuilder.UserItemRequestBuilderGetQueryParameters(
+		select = ["mail"])
+
+    request_configuration = UserItemRequestBuilder.UserItemRequestBuilderGetRequestConfiguration(query_parameters = query_params)
+
+    sender_email = await graph_client.users.by_user_id('user-id').get(request_configuration = request_configuration)
+    flash(f"sender = " + sender_email)
+    # Simulate some asynchronous operation, like fetching data from a server
+    #await asyncio.sleep(1)
+    return sender_email
+
 # The import must be done after db initialization due to circular import issue
 from models import Restaurant, Review, Users, SendCertificatesModel
 
@@ -87,15 +100,9 @@ def index():
 
 @app.route('/send', methods=['POST', 'GET'])
 @csrf.exempt
-def send():
-    query_params = UserItemRequestBuilder.UserItemRequestBuilderGetQueryParameters(
-		select = ["mail"])
-
-    request_configuration = UserItemRequestBuilder.UserItemRequestBuilderGetRequestConfiguration(query_parameters = query_params)
-
-    sender_email = graph_client.users.by_user_id('user-id').get(request_configuration = request_configuration)
-    flash(f"sender = {sender_email}")
+async def send():    
     form = SendCertificates(csrf_enabled=False)
+    sender_email = await fetch_data()
     if form.validate_on_submit():
         new_entry = SendCertificatesModel(
                 sender= sender_email,
