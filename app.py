@@ -11,7 +11,8 @@ from flask_wtf.csrf import CSRFProtect
 
 from forms import LoginForm, Register, SendCertificates
 
-from azure.identity import DefaultAzureCredential, ClientSecretCredential
+from azure.identity import DefaultAzureCredential
+from azure.identity.aio import ClientSecretCredential
 from azure.storage.blob import BlobServiceClient, BlobClient, ContainerClient
 from msgraph import GraphServiceClient
 from msgraph.generated.users.item.user_item_request_builder import UserItemRequestBuilder
@@ -76,7 +77,7 @@ credential = ClientSecretCredential(
 
 graph_client = GraphServiceClient(credential, scopes) # type: ignore
 
-async def fetch_data():
+async def get_user():
     query_params = UserItemRequestBuilder.UserItemRequestBuilderGetQueryParameters(
 		select = ["mail"])
 
@@ -86,7 +87,8 @@ async def fetch_data():
     flash(f"sender = " + sender_email)
     # Simulate some asynchronous operation, like fetching data from a server
     #await asyncio.sleep(1)
-    return sender_email
+    #return sender_email
+    asyncio.run(get_user())
 
 # The import must be done after db initialization due to circular import issue
 from models import Restaurant, Review, Users, SendCertificatesModel
@@ -101,7 +103,7 @@ def index():
 @csrf.exempt
 def send():    
     form = SendCertificates(csrf_enabled=False)
-    sender_email = fetch_data()
+    sender_email = get_user()
     if form.validate_on_submit():
         new_entry = SendCertificatesModel(
                 sender= sender_email,
