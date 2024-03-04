@@ -16,6 +16,7 @@ from azure.identity.aio import ClientSecretCredential
 from azure.storage.blob import BlobServiceClient, BlobClient, ContainerClient
 from msgraph import GraphServiceClient
 from msgraph.generated.users.item.user_item_request_builder import UserItemRequestBuilder
+:/
 
 
 app = Flask(__name__, static_folder='static')
