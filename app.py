@@ -83,8 +83,8 @@ async def get_user():
 
     request_configuration = UserItemRequestBuilder.UserItemRequestBuilderGetRequestConfiguration(query_parameters = query_params)
 
-    #sender_email = await graph_client.users.by_user_id('user-id').get(request_configuration = request_configuration)
-    sender_email = await graph_client.me.get(request_configuration)
+    sender_email = await graph_client.users.by_user_id('user-id').get(request_configuration)
+    #sender_email = await graph_client.me.get(request_configuration)
     flash(f"sender = " + sender_email)
     # Simulate some asynchronous operation, like fetching data from a server
     #await asyncio.sleep(1)
