@@ -120,13 +120,13 @@ from models import Restaurant, Review, Users, SendCertificatesModel
 @csrf.exempt
 def index():
     print('Request for index page received')
+    sender_email = get_user()
     return render_template('dash.html')
 
 @app.route('/send', methods=['POST', 'GET'])
 @csrf.exempt
 def send():    
     form = SendCertificates(csrf_enabled=False)
-    sender_email = get_user()
     if form.validate_on_submit():
         new_entry = SendCertificatesModel(
                 sender= sender_email,
