@@ -12,4 +12,3 @@ email_validator
 msgraph-sdk
 Flask[async]
 aioflask
-asyncio

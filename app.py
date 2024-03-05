@@ -2,7 +2,7 @@ import os
 import logging
 import hashlib
 from datetime import datetime
-import asyncio
+
 
 from flask import Flask, redirect, render_template, request, send_from_directory, url_for, flash
 from flask_migrate import Migrate
@@ -90,8 +90,8 @@ async def get_user():
     user = await graph_client.me.get()
     flash(f"sender = {user.mail}" )
     # Simulate some asynchronous operation, like fetching data from a server
-    # return sender_email
-asyncio.run(get_user())
+    return user.mail
+
 
 # The import must be done after db initialization due to circular import issue
 from models import Restaurant, Review, Users, SendCertificatesModel
