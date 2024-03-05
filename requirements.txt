@@ -12,3 +12,4 @@ email_validator
 msgraph-sdk
 Flask[async]
 aioflask
+jwt

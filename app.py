@@ -79,15 +79,35 @@ credential = ClientSecretCredential(
 
 graph_client = GraphServiceClient(credential, scopes) # type: ignore
 
-async def get_user():
-    query_params = UserItemRequestBuilder.UserItemRequestBuilderGetQueryParameters(
-		select = ["mail"])
+def get_user():
+    # query_params = UserItemRequestBuilder.UserItemRequestBuilderGetQueryParameters(
+	# 	select = ["mail"])
 
-    request_configuration = UserItemRequestBuilder.UserItemRequestBuilderGetRequestConfiguration(query_parameters = query_params)
+    # request_configuration = UserItemRequestBuilder.UserItemRequestBuilderGetRequestConfiguration(query_parameters = query_params)
 
-    sender_email = await graph_client.users.by_user_id('user-id').get(request_configuration)
+    # sender_email = await graph_client.users.by_user_id('user-id').get(request_configuration)
     #sender_email = await graph_client.me.get(request_configuration)
     # user = await graph_client.me.get()
+
+    # Get the ID token from the authorization header or from the request body
+    id_token = request.headers.get('Authorization').split(' ')[1]
+
+    # Decode the ID token
+    try:
+        payload = jwt.decode(id_token, options={"verify_signature": False})
+        sender_email = payload.get('email')
+    except jwt.ExpiredSignatureError:
+        # The token is expired, handle accordingly
+        logging.exception("An error occurred:")
+        return "Internal Server Error"
+        
+    except jwt.InvalidTokenError:
+        # The token is invalid, handle accordingly
+        logging.exception("An error occurred:")
+        return "Internal Server Error"
+        
+
+
     flash(f"sender = {sender_email}" )
     # Simulate some asynchronous operation, like fetching data from a server
     return sender_email
@@ -104,9 +124,9 @@ def index():
 
 @app.route('/send', methods=['POST', 'GET'])
 @csrf.exempt
-async def send():    
+def send():    
     form = SendCertificates(csrf_enabled=False)
-    sender_email = await get_user()
+    sender_email = get_user()
     if form.validate_on_submit():
         new_entry = SendCertificatesModel(
                 sender= sender_email,
