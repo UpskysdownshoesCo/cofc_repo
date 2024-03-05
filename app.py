@@ -80,17 +80,17 @@ credential = ClientSecretCredential(
 graph_client = GraphServiceClient(credential, scopes) # type: ignore
 
 async def get_user():
-    # query_params = UserItemRequestBuilder.UserItemRequestBuilderGetQueryParameters(
-	# 	select = ["mail"])
+    query_params = UserItemRequestBuilder.UserItemRequestBuilderGetQueryParameters(
+		select = ["mail"])
 
-    # request_configuration = UserItemRequestBuilder.UserItemRequestBuilderGetRequestConfiguration(query_parameters = query_params)
+    request_configuration = UserItemRequestBuilder.UserItemRequestBuilderGetRequestConfiguration(query_parameters = query_params)
 
-    # sender_email = await graph_client.users.by_user_id('user-id').get(request_configuration)
+    sender_email = await graph_client.users.by_user_id('user-id').get(request_configuration)
     #sender_email = await graph_client.me.get(request_configuration)
-    user = await graph_client.me.get()
-    flash(f"sender = {user.mail}" )
+    # user = await graph_client.me.get()
+    flash(f"sender = {sender_email}" )
     # Simulate some asynchronous operation, like fetching data from a server
-    return user.mail
+    return sender_email
 
 
 # The import must be done after db initialization due to circular import issue
