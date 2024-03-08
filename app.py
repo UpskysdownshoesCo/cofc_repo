@@ -109,7 +109,7 @@ response = requests.get(
     headers=headers,
 )
 
-flash(json.dumps(response.json(), indent=4))
+print(json.dumps(response.json(), indent=4))
 
 
 
