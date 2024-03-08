@@ -13,3 +13,6 @@ msgraph-sdk
 Flask[async]
 aioflask
 jwt
+json
+requests 
+msal

@@ -61,6 +61,67 @@ db = SQLAlchemy(app)
 # Enable Flask-Migrate commands "flask db init/migrate/upgrade" to work
 migrate = Migrate(app, db)
 
+# ############################################################################################
+
+#graph stuff
+
+import json
+
+import requests
+from msal import ConfidentialClientApplication
+
+
+
+tenant_id = "1aface79-3d26-4db1-9064-8140a2ce020c"
+client_id = "ff3620ec-629b-42d5-b240-3cf85addcf16"
+client_secret = "._p8Q~u0P~p9c0u0samKPj3vod~3a61E1sx3qdlc"
+
+msal_authority = f"https://login.microsoftonline.com/{tenant_id}"
+
+msal_scope = ["https://graph.microsoft.com/.default"]
+
+msal_app = ConfidentialClientApplication(
+    client_id=client_id,
+    client_credential=client_secret,
+    authority=msal_authority,
+)
+
+result = msal_app.acquire_token_silent(
+    scopes=msal_scope,
+    account=None,
+)
+
+if not result:
+    result = msal_app.acquire_token_for_client(scopes=msal_scope)
+
+if "access_token" in result:
+    access_token = result["access_token"]
+else:
+    raise Exception("No Access Token found")
+
+headers = {
+    "Authorization": f"Bearer {access_token}",
+    "Content-Type": "application/json",
+}
+
+response = requests.get(
+    url="https://graph.microsoft.com/v1.0/users",
+    headers=headers,
+)
+
+print(json.dumps(response.json(), indent=4))
+
+
+
+
+
+
+
+
+
+
+##################################################################################################
+
 # The import must be done after db initialization due to circular import issue
 from models import Restaurant, Review, Users, SendCertificatesModel
 
