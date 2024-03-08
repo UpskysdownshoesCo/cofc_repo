@@ -1,0 +1,60 @@
+
+# The client credentials flow requires that you request the
+# /.default scope, and pre-configure your permissions on the
+# app registration in Azure. An administrator must grant consent
+# to those permissions beforehand.
+scopes = ['https://graph.microsoft.com/.default']
+
+
+# Values from app registration
+tenant_id = '1aface79-3d26-4db1-9064-8140a2ce020c'
+client_id = 'ff3620ec-629b-42d5-b240-3cf85addcf16'
+client_secret = '._p8Q~u0P~p9c0u0samKPj3vod~3a61E1sx3qdlc'
+
+
+# azure.identity.aio
+graph_credential = ClientSecretCredential(
+    tenant_id=tenant_id,
+    client_id=client_id,
+    client_secret=client_secret)
+
+graph_client = GraphServiceClient(graph_credential, scopes) # type: ignore
+
+async def get_user():
+    query_params = UserItemRequestBuilder.UserItemRequestBuilderGetQueryParameters(
+		select = ["mail"])
+
+    request_configuration = UserItemRequestBuilder.UserItemRequestBuilderGetRequestConfiguration(query_parameters = query_params)
+
+    # sender_email = await graph_client.users.by_user_id('user-id').get(request_configuration)
+    sender_email = await graph_client.me.get(request_configuration)
+    # user = await graph_client.me.get()
+
+    # Get the ID token from the authorization header or from the request body
+    # id_token = request.headers.get('Authorization').split(' ')[1]
+
+    # # Decode the ID token
+    # try:
+    #     payload = jwt.decode(id_token, options={"verify_signature": False})
+    #     sender_email = payload.get('email')
+    # except jwt.ExpiredSignatureError:
+    #     # The token is expired, handle accordingly
+    #     logging.exception("An error occurred:")
+    #     return "Internal Server Error"
+        
+    # except jwt.InvalidTokenError:
+    #     # The token is invalid, handle accordingly
+    #     logging.exception("An error occurred:")
+    #     return "Internal Server Error"
+        
+
+
+    flash(f"sender = {sender_email}" )
+    # Simulate some asynchronous operation, like fetching data from a server
+    return sender_email
+
+# Application (client) ID of app registration
+CLIENT_ID = os.getenv("CLIENT_ID")
+# Application's generated client secret: never check this into source control!
+CLIENT_SECRET = os.getenv("CLIENT_SECRET")
+

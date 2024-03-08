@@ -26,6 +26,7 @@ app.config['WTF_CSRF_ENABLED'] = False
 SECRET_KEY = os.urandom(32)
 app.config['SECRET_KEY'] = SECRET_KEY
 
+
 credential = DefaultAzureCredential()
 account_url = "https://cofcstorage.blob.core.windows.net"
 blob_service_client = BlobServiceClient(account_url, credential = credential)
@@ -60,59 +61,6 @@ db = SQLAlchemy(app)
 # Enable Flask-Migrate commands "flask db init/migrate/upgrade" to work
 migrate = Migrate(app, db)
 
-# The client credentials flow requires that you request the
-# /.default scope, and pre-configure your permissions on the
-# app registration in Azure. An administrator must grant consent
-# to those permissions beforehand.
-scopes = ['https://graph.microsoft.com/.default']
-
-# Values from app registration
-tenant_id = '1aface79-3d26-4db1-9064-8140a2ce020c'
-client_id = 'ff3620ec-629b-42d5-b240-3cf85addcf16'
-client_secret = '._p8Q~u0P~p9c0u0samKPj3vod~3a61E1sx3qdlc'
-
-# azure.identity.aio
-credential = ClientSecretCredential(
-    tenant_id=tenant_id,
-    client_id=client_id,
-    client_secret=client_secret)
-
-graph_client = GraphServiceClient(credential, scopes) # type: ignore
-
-def get_user():
-    # query_params = UserItemRequestBuilder.UserItemRequestBuilderGetQueryParameters(
-	# 	select = ["mail"])
-
-    # request_configuration = UserItemRequestBuilder.UserItemRequestBuilderGetRequestConfiguration(query_parameters = query_params)
-
-    # sender_email = await graph_client.users.by_user_id('user-id').get(request_configuration)
-    #sender_email = await graph_client.me.get(request_configuration)
-    # user = await graph_client.me.get()
-
-    # Get the ID token from the authorization header or from the request body
-    id_token = request.headers.get('Authorization').split(' ')[1]
-
-    # Decode the ID token
-    try:
-        payload = jwt.decode(id_token, options={"verify_signature": False})
-        sender_email = payload.get('email')
-    except jwt.ExpiredSignatureError:
-        # The token is expired, handle accordingly
-        logging.exception("An error occurred:")
-        return "Internal Server Error"
-        
-    except jwt.InvalidTokenError:
-        # The token is invalid, handle accordingly
-        logging.exception("An error occurred:")
-        return "Internal Server Error"
-        
-
-
-    flash(f"sender = {sender_email}" )
-    # Simulate some asynchronous operation, like fetching data from a server
-    return sender_email
-
-
 # The import must be done after db initialization due to circular import issue
 from models import Restaurant, Review, Users, SendCertificatesModel
 
@@ -120,7 +68,7 @@ from models import Restaurant, Review, Users, SendCertificatesModel
 @csrf.exempt
 def index():
     print('Request for index page received')
-    sender_email = get_user()
+    # sender_email = get_user()
     return render_template('dash.html')
 
 @app.route('/send', methods=['POST', 'GET'])
@@ -129,7 +77,7 @@ def send():
     form = SendCertificates(csrf_enabled=False)
     if form.validate_on_submit():
         new_entry = SendCertificatesModel(
-                sender= sender_email,
+                sender= "sender",
                 recipient=form.recipient.data,
                 po_number=form.po_number.data,
                 batch_number=form.batch_number.data,
