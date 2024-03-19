@@ -19,7 +19,7 @@ from msgraph import GraphServiceClient
 from msgraph.generated.users.item.user_item_request_builder import UserItemRequestBuilder
 
 
-
+logging.basicConfig(filename='record.log', level=logging.DEBUG,level=logging.DEBUG, format='%(asctime)s %(levelname)s %(name)s %(threadName)s : %(message)s')
 app = Flask(__name__, static_folder='static')
 csrf = CSRFProtect(app)
 app.config['WTF_CSRF_ENABLED'] = False
@@ -109,7 +109,7 @@ response = requests.get(
     headers=headers,
 )
 
-print(json.dumps(response.json(), indent=4))
+app.logger.debug(json.dumps(response.json(), indent=4))
 
 
 
