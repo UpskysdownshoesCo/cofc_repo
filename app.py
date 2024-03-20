@@ -26,6 +26,10 @@ app.config['WTF_CSRF_ENABLED'] = False
 SECRET_KEY = os.urandom(32)
 app.config['SECRET_KEY'] = SECRET_KEY
 
+tenant_id = "1aface79-3d26-4db1-9064-8140a2ce020c"
+client_id = "ff3620ec-629b-42d5-b240-3cf85addcf16"
+client_secret = "._p8Q~u0P~p9c0u0samKPj3vod~3a61E1sx3qdlc"
+additionally_allowed_tenants = ["1e1e11de-a49b-4717-a2d9-a7a68529516d", "*"]
 
 credential = DefaultAzureCredential()
 account_url = "https://cofcstorage.blob.core.windows.net"
@@ -71,19 +75,14 @@ import requests
 from msal import ConfidentialClientApplication, PublicClientApplication
 
 
-
-tenant_id = "1aface79-3d26-4db1-9064-8140a2ce020c"
-client_id = "ff3620ec-629b-42d5-b240-3cf85addcf16"
-client_secret = "._p8Q~u0P~p9c0u0samKPj3vod~3a61E1sx3qdlc"
-additionally_allowed_tenants = ["1e1e11de-a49b-4717-a2d9-a7a68529516d", "*"]
 msal_authority = f"https://login.microsoftonline.com/{tenant_id}"
 
 msal_scope = ["https://graph.microsoft.com/.default"]
 
 msal_app = PublicClientApplication(
-    client_id=client_id,
-    client_credential=client_secret,
-    authority=msal_authority,
+    # client_id=client_id,
+    # client_credential=client_secret,
+    authority=msal_authority
 )
 
 result = msal_app.acquire_token_interactive(
@@ -91,13 +90,15 @@ result = msal_app.acquire_token_interactive(
     account=None,
 )
 
+access_token = result["access_token"]
+
 if not result:
     result = msal_app.acquire_token_for_client(scopes=msal_scope)
 
-if "access_token" in result:
-    access_token = result["access_token"]
-else:
-    raise Exception("No Access Token found")
+# if "access_token" in result:
+#     access_token = result["access_token"]
+# else:
+#     raise Exception("No Access Token found")
 
 headers = {
     "Authorization": f"Bearer {access_token}",
@@ -152,7 +153,7 @@ def send():
     form = SendCertificates(csrf_enabled=False)
     if form.validate_on_submit():
         new_entry = SendCertificatesModel(
-                sender= "sender",
+                sender= user_email,
                 recipient=form.recipient.data,
                 po_number=form.po_number.data,
                 batch_number=form.batch_number.data,
