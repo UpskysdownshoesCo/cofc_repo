@@ -19,7 +19,7 @@ from msgraph import GraphServiceClient
 from msgraph.generated.users.item.user_item_request_builder import UserItemRequestBuilder
 
 
-logging.basicConfig(filename='record.log', level=logging.DEBUG,level=logging.DEBUG, format='%(asctime)s %(levelname)s %(name)s %(threadName)s : %(message)s')
+logging.basicConfig(filename='record.log', level=logging.DEBUG, format='%(asctime)s %(levelname)s %(name)s %(threadName)s : %(message)s')
 app = Flask(__name__, static_folder='static')
 csrf = CSRFProtect(app)
 app.config['WTF_CSRF_ENABLED'] = False
@@ -68,25 +68,25 @@ migrate = Migrate(app, db)
 import json
 
 import requests
-from msal import ConfidentialClientApplication
+from msal import ConfidentialClientApplication, PublicClientApplication
 
 
 
 tenant_id = "1aface79-3d26-4db1-9064-8140a2ce020c"
 client_id = "ff3620ec-629b-42d5-b240-3cf85addcf16"
 client_secret = "._p8Q~u0P~p9c0u0samKPj3vod~3a61E1sx3qdlc"
-
+additionally_allowed_tenants = ["1e1e11de-a49b-4717-a2d9-a7a68529516d", "*"]
 msal_authority = f"https://login.microsoftonline.com/{tenant_id}"
 
 msal_scope = ["https://graph.microsoft.com/.default"]
 
-msal_app = ConfidentialClientApplication(
+msal_app = PublicClientApplication(
     client_id=client_id,
     client_credential=client_secret,
     authority=msal_authority,
 )
 
-result = msal_app.acquire_token_silent(
+result = msal_app.acquire_token_interactive(
     scopes=msal_scope,
     account=None,
 )
