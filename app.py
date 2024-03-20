@@ -111,7 +111,21 @@ response = requests.get(
 
 app.logger.debug(json.dumps(response.json(), indent=4))
 
+response_json = response.json()
 
+# Assuming you're looking for a specific user and that user is the first one in the response.
+# This needs to be adjusted based on your actual requirement.
+# Check if the response contains value key and it's not empty
+if "value" in response_json and response_json["value"]:
+    user_info = response_json["value"][0]  # Gets the first user; adjust as needed.
+    if "mail" in user_info:
+        user_email = user_info["mail"]
+        
+        app.logger.debug(user_email)  # or assign it to a variable as you see fit
+    else:
+        print("Email not found for the user.")
+else:
+    print("No users found in response.")
 
 
 
