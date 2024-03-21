@@ -150,6 +150,7 @@ def index():
 @app.route('/send', methods=['POST', 'GET'])
 @csrf.exempt
 def send():    
+    user_email = "sender@sender.com"
     form = SendCertificates(csrf_enabled=False)
     if form.validate_on_submit():
         new_entry = SendCertificatesModel(
