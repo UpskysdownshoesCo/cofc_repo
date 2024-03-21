@@ -81,7 +81,7 @@ msal_scope = ["https://graph.microsoft.com/.default"]
 
 msal_app = PublicClientApplication(
     client_id=client_id,
-    client_credential=client_secret,
+    # client_credential=client_secret,
     authority=msal_authority
 )
 
