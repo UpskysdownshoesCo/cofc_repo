@@ -79,13 +79,13 @@ msal_authority = f"https://login.microsoftonline.com/{tenant_id}"
 
 msal_scope = ["https://graph.microsoft.com/.default"]
 
-msal_app = PublicClientApplication(
+msal_app = ConfidentialClientApplication(
     client_id=client_id,
-    # client_credential=client_secret,
+    client_credential=client_secret,
     authority=msal_authority
 )
 
-result = msal_app.acquire_token_interactive(
+result = msal_app.acquire_token_for_client(
     scopes=msal_scope,
     account=None,
 )
