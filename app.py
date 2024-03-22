@@ -123,11 +123,26 @@ from msal import ConfidentialClientApplication, PublicClientApplication
 #     print("No users found in response.")
 
 def get_user_email():
-    access_token = request.headers.get('Authorization').split(' ')[1]
+    auth_header = request.headers.get('Authorization')
+    if not auth_header:
+        raise ValueError("Authorization header is missing")
 
-    # Decoding the access token to extract claims
-    decoded_token = jwt.decode(access_token, verify=False)
+    access_token_parts = auth_header.split(' ')
+    if len(access_token_parts) != 2 or access_token_parts[0] != 'Bearer':
+        raise ValueError("Invalid Authorization header format")
+
+    access_token = access_token_parts[1]
+
+    # Decode the access token to extract claims
+    try:
+        decoded_token = decode(access_token, verify=False)
+    except Exception as e:
+        raise ValueError("Failed to decode access token") from e
+
+    # Extract user email from decoded token
     user_email = decoded_token.get('email')
+    if not user_email:
+        raise ValueError("User email not found in token")
 
     return f'User email: {user_email}'
 
