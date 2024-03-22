@@ -4,7 +4,7 @@ import hashlib
 from datetime import datetime
 import jwt
 
-from flask import Flask, redirect, render_template, request, send_from_directory, url_for, flash
+from flask import Flask, redirect, render_template, request, send_from_directory, url_for, flash, session
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
 from flask_wtf.csrf import CSRFProtect
@@ -197,6 +197,7 @@ from models import Restaurant, Review, Users, SendCertificatesModel
 @app.route('/', methods=['GET'])
 @csrf.exempt
 def index():
+    session['user_email'] = get_user_email()
     print('Request for index page received')
     # sender_email = get_user()
     return render_template('dash.html')
@@ -205,10 +206,14 @@ def index():
 @csrf.exempt
 def send():    
     # user_email = "sender@sender.com"
+    user_email = session.get('user_email', None)  # Retrieve from session, default to None if not found
+    if user_email is None:
+        flash("User email not found.")
+        return redirect('/')
     form = SendCertificates(csrf_enabled=False)
     if form.validate_on_submit():
         new_entry = SendCertificatesModel(
-                sender= get_user_email(),
+                sender= user_email,
                 recipient=form.recipient.data,
                 po_number=form.po_number.data,
                 batch_number=form.batch_number.data,
