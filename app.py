@@ -90,7 +90,10 @@ result = msal_app.acquire_token_for_client(
     
 )
 
-access_token = result["access_token"]
+if "access_token" in result:
+    access_token = result["access_token"]
+else:
+    raise Exception("No Access Token found")
 
 if access_token:
     headers = {
