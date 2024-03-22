@@ -77,8 +77,8 @@ from msal import ConfidentialClientApplication, PublicClientApplication
 
 msal_authority = f"https://login.microsoftonline.com/{tenant_id}"
 
-msal_scope = ["https://graph.microsoft.com/.default"]
-
+# msal_scope = ["https://graph.microsoft.com/.default"]
+msal_scope = ["user.read"]
 msal_app = ConfidentialClientApplication(
     client_id=client_id,
     client_credential=client_secret,
@@ -92,41 +92,65 @@ result = msal_app.acquire_token_for_client(
 
 access_token = result["access_token"]
 
-if not result:
-    result = msal_app.acquire_token_for_client(scopes=msal_scope)
+if access_token:
+    headers = {
+        "Authorization": f"Bearer {access_token}",
+        "Content-Type": "application/json",
+    }
 
-# if "access_token" in result:
-#     access_token = result["access_token"]
-# else:
-#     raise Exception("No Access Token found")
+    response = requests.get(
+        url="https://graph.microsoft.com/v1.0/me",
+        headers=headers,
+    )
 
-headers = {
-    "Authorization": f"Bearer {access_token}",
-    "Content-Type": "application/json",
-}
+    response_json = response.json()
 
-response = requests.get(
-    url="https://graph.microsoft.com/v1.0/users",
-    headers=headers,
-)
-
-app.logger.debug(json.dumps(response.json(), indent=4))
-
-response_json = response.json()
-
-# Assuming you're looking for a specific user and that user is the first one in the response.
-# This needs to be adjusted based on your actual requirement.
-# Check if the response contains value key and it's not empty
-if "value" in response_json and response_json["value"]:
-    user_info = response_json["value"][0]  # Gets the first user; adjust as needed.
-    if "mail" in user_info:
-        user_email = user_info["mail"]
-        
-        app.logger.debug(user_email)  # or assign it to a variable as you see fit
+    if "mail" in response_json:
+        user_email = response_json["mail"]
+        app.logger.debug(user_email)
     else:
         print("Email not found for the user.")
 else:
-    print("No users found in response.")
+    print("Access token not obtained.")
+
+
+
+
+# if not result:
+#     result = msal_app.acquire_token_for_client(scopes=msal_scope)
+
+# # if "access_token" in result:
+# #     access_token = result["access_token"]
+# # else:
+# #     raise Exception("No Access Token found")
+
+# headers = {
+#     "Authorization": f"Bearer {access_token}",
+#     "Content-Type": "application/json",
+# }
+
+# response = requests.get(
+#     url="https://graph.microsoft.com/v1.0/users",
+#     headers=headers,
+# )
+
+# app.logger.debug(json.dumps(response.json(), indent=4))
+
+# response_json = response.json()
+
+# # Assuming you're looking for a specific user and that user is the first one in the response.
+# # This needs to be adjusted based on your actual requirement.
+# # Check if the response contains value key and it's not empty
+# if "value" in response_json and response_json["value"]:
+#     user_info = response_json["value"][0]  # Gets the first user; adjust as needed.
+#     if "mail" in user_info:
+#         user_email = user_info["mail"]
+        
+#         app.logger.debug(user_email)  # or assign it to a variable as you see fit
+#     else:
+#         print("Email not found for the user.")
+# else:
+#     print("No users found in response.")
 
 
 
@@ -150,7 +174,7 @@ def index():
 @app.route('/send', methods=['POST', 'GET'])
 @csrf.exempt
 def send():    
-    user_email = "sender@sender.com"
+    # user_email = "sender@sender.com"
     form = SendCertificates(csrf_enabled=False)
     if form.validate_on_submit():
         new_entry = SendCertificatesModel(
