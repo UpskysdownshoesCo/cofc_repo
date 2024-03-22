@@ -123,7 +123,7 @@ from msal import ConfidentialClientApplication, PublicClientApplication
 #     print("No users found in response.")
 
 def get_user_email():
-    auth_header = flask.request.headers.get('Authorization')
+    auth_header = request.headers.get('Authorization')
     if not auth_header:
         raise ValueError("Authorization header is missing")
 
