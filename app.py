@@ -144,7 +144,8 @@ def get_user_email():
     if not user_email:
         raise ValueError("User email not found in token")
 
-    return f'User email: {user_email}'
+    # return f'User email: {user_email}'
+    return user_email
 
 
 
