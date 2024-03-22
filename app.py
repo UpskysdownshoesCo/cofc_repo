@@ -2,7 +2,7 @@ import os
 import logging
 import hashlib
 from datetime import datetime
-
+import jwt
 
 from flask import Flask, redirect, render_template, request, send_from_directory, url_for, flash
 from flask_migrate import Migrate
@@ -31,40 +31,6 @@ client_id = "ff3620ec-629b-42d5-b240-3cf85addcf16"
 client_secret = "._p8Q~u0P~p9c0u0samKPj3vod~3a61E1sx3qdlc"
 additionally_allowed_tenants = ["1e1e11de-a49b-4717-a2d9-a7a68529516d", "*"]
 
-credential = DefaultAzureCredential()
-account_url = "https://cofcstorage.blob.core.windows.net"
-blob_service_client = BlobServiceClient(account_url, credential = credential)
-
-container_name = "test2"
-
-try:
-    container_client = blob_service_client.get_container_client(container = container_name)
-    container_client.get_container_properties()
-except Exception as e:
-    container_client = blob_service_client.create_container(container_name)
-
-
-# WEBSITE_HOSTNAME exists only in production environment
-if 'WEBSITE_HOSTNAME' not in os.environ:
-    # local development, where we'll use environment variables
-    print("Loading config.development and environment variables from .env file.")
-    app.config.from_object('azureproject.development')
-else:
-    # production
-    print("Loading config.production.")
-    app.config.from_object('azureproject.production')
-
-app.config.update(
-    SQLALCHEMY_DATABASE_URI=app.config.get('DATABASE_URI'),
-    SQLALCHEMY_TRACK_MODIFICATIONS=False,
-)
-
-# Initialize the database connection
-db = SQLAlchemy(app)
-
-# Enable Flask-Migrate commands "flask db init/migrate/upgrade" to work
-migrate = Migrate(app, db)
-
 # ############################################################################################
 
 #graph stuff
@@ -75,46 +41,47 @@ import requests
 from msal import ConfidentialClientApplication, PublicClientApplication
 
 
-msal_authority = f"https://login.microsoftonline.com/{tenant_id}"
+
+# msal_authority = f"https://login.microsoftonline.com/{tenant_id}"
 
 # msal_scope = ["https://graph.microsoft.com/.default"]
-msal_scope = ["user.read"]
-msal_app = ConfidentialClientApplication(
-    client_id=client_id,
-    client_credential=client_secret,
-    authority=msal_authority
-)
+# # msal_scope = ["user.read"]
+# msal_app = ConfidentialClientApplication(
+#     client_id=client_id,
+#     client_credential=client_secret,
+#     authority=msal_authority
+# )
 
-result = msal_app.acquire_token_for_client(
-    scopes=msal_scope,
+# result = msal_app.acquire_token_for_client(
+#     scopes=msal_scope,
     
-)
+# )
 
-if "access_token" in result:
-    access_token = result["access_token"]
-else:
-    raise Exception("No Access Token found")
+# if "access_token" in result:
+#     access_token = result["access_token"]
+# else:
+#     raise Exception("No Access Token found")
 
-if access_token:
-    headers = {
-        "Authorization": f"Bearer {access_token}",
-        "Content-Type": "application/json",
-    }
+# if access_token:
+#     headers = {
+#         "Authorization": f"Bearer {access_token}",
+#         "Content-Type": "application/json",
+#     }
 
-    response = requests.get(
-        url="https://graph.microsoft.com/v1.0/me",
-        headers=headers,
-    )
+#     response = requests.get(
+#         url="https://graph.microsoft.com/v1.0/me",
+#         headers=headers,
+#     )
 
-    response_json = response.json()
-
-    if "mail" in response_json:
-        user_email = response_json["mail"]
-        app.logger.debug(user_email)
-    else:
-        print("Email not found for the user.")
-else:
-    print("Access token not obtained.")
+#     response_json = response.json()
+#     app.logger.debug(json.dumps(response.json(), indent=4))
+#     if "mail" in response_json:
+#         user_email = response_json["mail"]
+#         app.logger.debug(user_email)
+#     else:
+#         print("Email not found for the user.")
+# else:
+#     print("Access token not obtained.")
 
 
 
@@ -155,7 +122,14 @@ else:
 # else:
 #     print("No users found in response.")
 
+def get_user_email():
+    access_token = request.headers.get('Authorization').split(' ')[1]
 
+    # Decoding the access token to extract claims
+    decoded_token = jwt.decode(access_token, verify=False)
+    user_email = decoded_token.get('email')
+
+    return f'User email: {user_email}'
 
 
 
@@ -163,6 +137,43 @@ else:
 
 
 ##################################################################################################
+
+
+credential = DefaultAzureCredential()
+account_url = "https://cofcstorage.blob.core.windows.net"
+blob_service_client = BlobServiceClient(account_url, credential = credential)
+
+container_name = "test2"
+
+try:
+    container_client = blob_service_client.get_container_client(container = container_name)
+    container_client.get_container_properties()
+except Exception as e:
+    container_client = blob_service_client.create_container(container_name)
+
+
+# WEBSITE_HOSTNAME exists only in production environment
+if 'WEBSITE_HOSTNAME' not in os.environ:
+    # local development, where we'll use environment variables
+    print("Loading config.development and environment variables from .env file.")
+    app.config.from_object('azureproject.development')
+else:
+    # production
+    print("Loading config.production.")
+    app.config.from_object('azureproject.production')
+
+app.config.update(
+    SQLALCHEMY_DATABASE_URI=app.config.get('DATABASE_URI'),
+    SQLALCHEMY_TRACK_MODIFICATIONS=False,
+)
+
+# Initialize the database connection
+db = SQLAlchemy(app)
+
+# Enable Flask-Migrate commands "flask db init/migrate/upgrade" to work
+migrate = Migrate(app, db)
+
+
 
 # The import must be done after db initialization due to circular import issue
 from models import Restaurant, Review, Users, SendCertificatesModel
@@ -181,7 +192,7 @@ def send():
     form = SendCertificates(csrf_enabled=False)
     if form.validate_on_submit():
         new_entry = SendCertificatesModel(
-                sender= user_email,
+                sender= get_user_email(),
                 recipient=form.recipient.data,
                 po_number=form.po_number.data,
                 batch_number=form.batch_number.data,
