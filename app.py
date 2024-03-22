@@ -135,7 +135,7 @@ def get_user_email():
 
     # Decode the access token to extract claims
     try:
-        decoded_token = decode(access_token, verify=False)
+        decoded_token = jwt.decode(access_token, verify=False)
     except Exception as e:
         raise ValueError("Failed to decode access token") from e
 
